@@ -1,0 +1,37 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+main {
+  flex: 1;
+}
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🌞 LIGHT MODE */
+body.light {
+  background-color: #ffffff;
+  color: #111111;
+}
+
+/* 🌙 DARK MODE */
+body.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* نضيف تأثير للـ header كمان */
+.header {
+  transition: 0.3s;
+}
+
+body.dark .header {
+  background-color: #1f1f1f;
+}
+
+body.light .header {
+  background-color: #111;
+}
