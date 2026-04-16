@@ -1,18 +1,18 @@
-.products {
+.Products {
   padding: 40px;
   background: var(--bg);
   min-height: 100vh;
   color: var(--text);
 }
 
-.products h1 {
+.Products h1 {
   text-align: center;
   margin-bottom: 35px;
   font-size: 28px;
 }
 
 /* GRID */
-.products-grid {
+.Products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 22px;
@@ -68,7 +68,7 @@
   font-weight: bold;
 }
 
-/* ================= ADD PRODUCT CARD ================= */
+/* ================= adddddddd PRODUCT CARD ================= */
 
 
 .add-card:hover {

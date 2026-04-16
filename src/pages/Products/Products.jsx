@@ -6,13 +6,13 @@ import { AuthContext } from "../../context/AuthContext";
 import "./Products.css";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
+  const [Products, setProducts] = useState([]);
   const { userData } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const snapshot = await getDocs(collection(db, "products"));
+        const snapshot = await getDocs(collection(db, "Products"));
 
         const data = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -29,13 +29,13 @@ const Products = () => {
   }, []);
 
   return (
-    <div className="products">
+    <div className="Products">
       <h1>🛍️ Products</h1>
 
-      <div className="products-grid">
+      <div className="Products-grid">
 
-        {/* PRODUCTS */}
-        {products.map((product) => (
+        {/* Products */}
+        {Products.map((product) => (
           <div className="card" key={product.id}>
             <img src={product.image} alt={product.name} />
 
