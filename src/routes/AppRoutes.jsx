@@ -3,15 +3,27 @@ import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import ProtectedRoute from "./ProtectedRoute";
+import AdminRoute from "./AdminRoute";
+import Admin from "../pages/Admin/Admin";
+import Products from "../pages/Products/Products";
+import AddProduct from "../pages/AddProduct/AddProduct";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <MainLayout>
         <Routes>
-          <Route path="/" element={<Home />} />
+        
+          {/* 🔐 Protected Route */}
+          <Route path="/" element={<ProtectedRoute> <Home /> </ProtectedRoute>}/>
+          {/* 🌐 Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
+          <Route path="/products" element={<ProtectedRoute> <Products /> </ProtectedRoute>}/>
+          
+          {/* 🚫 Admin Only Route */} 
+          <Route path="/admin" element={<AdminRoute> <Admin /> </AdminRoute>}/>
+          <Route path="/add-product" element={<AddProduct />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>

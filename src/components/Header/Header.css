@@ -29,4 +29,11 @@
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  background-color: #ff00cc;
+  color: #fff;
+}
+.theme-btn:hover {
+  background-color: #ff66cc;
+  Transition: 0.3s;
+  
 }

@@ -9,9 +9,19 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// 🔥 Firebase
+import { auth, db } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { signOut } from "firebase/auth";
 
-const Register = () => {
+
+
+  const Register = () => {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -26,10 +36,11 @@ const Register = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  // =========================
-  // HANDLE CHANGE (LIVE VALIDATION)
-  // =========================
+  // =====================
+  // HANDLE CHANGE
+  // =====================
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -38,17 +49,12 @@ const Register = () => {
 
     let newErrors = { ...errors };
 
-    // FIRST NAME
-    if (name === "firstName") {
+    if (name === "firstName")
       newErrors.firstName = value ? "" : "First name is required";
-    }
 
-    // LAST NAME
-    if (name === "lastName") {
+    if (name === "lastName")
       newErrors.lastName = value ? "" : "Last name is required";
-    }
 
-    // EMAIL
     if (name === "email") {
       if (!value) newErrors.email = "Email is required";
       else if (!/\S+@\S+\.\S+/.test(value))
@@ -56,93 +62,112 @@ const Register = () => {
       else newErrors.email = "";
     }
 
-    // PHONE
-    if (name === "phone") {
+    if (name === "phone")
       newErrors.phone = value ? "" : "Phone is required";
-    }
 
-    // PASSWORD (min 8 chars)
     if (name === "password") {
       if (!value) newErrors.password = "Password is required";
       else if (value.length < 8)
-        newErrors.password = "Password must be at least 8 characters";
+        newErrors.password = "Minimum 8 characters";
       else newErrors.password = "";
     }
 
-    // CONFIRM PASSWORD (LIVE FIX 🔥)
     if (name === "confirmPassword") {
-      if (!value) newErrors.confirmPassword = "Confirm password is required";
+      if (!value)
+        newErrors.confirmPassword = "Confirm password is required";
       else if (value !== updatedForm.password)
         newErrors.confirmPassword = "Passwords do not match";
       else newErrors.confirmPassword = "";
     }
 
-    // GENDER
-    if (name === "gender") {
-      newErrors.gender = value ? "" : "Please select gender";
-    }
+    if (name === "gender")
+      newErrors.gender = value ? "" : "Select gender";
 
     setErrors(newErrors);
   };
 
-  // =========================
-  // VALIDATE ON SUBMIT
-  // =========================
+  // =====================
+  // VALIDATE
+  // =====================
   const validate = () => {
     let newErrors = {};
 
-    if (!form.firstName) newErrors.firstName = "First name is required";
-    if (!form.lastName) newErrors.lastName = "Last name is required";
+    if (!form.firstName) newErrors.firstName = "Required";
+    if (!form.lastName) newErrors.lastName = "Required";
 
-    if (!form.email) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(form.email))
-      newErrors.email = "Invalid email format";
+    if (!form.email) newErrors.email = "Required";
 
-    if (!form.phone) newErrors.phone = "Phone is required";
+    if (!form.phone) newErrors.phone = "Required";
 
-    if (!form.password)
-      newErrors.password = "Password is required";
-    else if (form.password.length < 8)
-      newErrors.password = "Password must be at least 8 characters";
+    if (!form.password || form.password.length < 8)
+      newErrors.password = "Min 8 characters";
 
-    if (!form.confirmPassword)
-      newErrors.confirmPassword = "Confirm password is required";
-    else if (form.confirmPassword !== form.password)
-      newErrors.confirmPassword = "Passwords do not match";
+    if (form.confirmPassword !== form.password)
+      newErrors.confirmPassword = "Passwords not match";
 
-    if (!form.gender) newErrors.gender = "Please select gender";
+    if (!form.gender) newErrors.gender = "Select gender";
 
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
 
-  // =========================
-  // SUBMIT
-  // =========================
-  const handleSubmit = () => {
-    if (validate()) {
-      console.log("Form Data:", form);
-      alert("Registered Successfully 🎉");
+  // =====================
+  // SUBMIT (AUTH + FIRESTORE)
+  // =====================
+  const handleSubmit = async () => {
+    if (!validate()) return;
+
+    try {
+      setLoading(true);
+
+      // 🔐 Create Auth user
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
+      );
+
+      const user = userCredential.user;
+
+      // 🗄️ Save extra data in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        phone: form.phone,
+        gender: form.gender,
+        email: form.email,
+        uid: user.uid,
+        role: "user",
+        createdAt: new Date(),
+      });
+
+    
+      await signOut(auth);
+      toast.success("Registered Successfully 🎉");
+      navigate("/login");
+
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="register-container">
 
-      {/* LEFT */}
       <div
         className="register-left"
         style={{ backgroundImage: `url(${hero})` }}
       />
 
-      {/* RIGHT */}
       <div className="register-right">
 
         <h2>Create Account</h2>
 
         <p className="sub-text">
-          Already have an account? <Link to="/login">Login here</Link>
+          Already have account? <Link to="/login">Login</Link>
         </p>
 
         {/* FIRST NAME */}
@@ -188,7 +213,6 @@ const Register = () => {
         {/* PASSWORD */}
         <div className="input-box">
           <label>Password</label>
-
           <div className="input-with-icon">
             <FaLock className="icon" />
             <input
@@ -196,22 +220,16 @@ const Register = () => {
               name="password"
               onChange={handleChange}
             />
-
-            <span
-              className="eye-icon"
-              onClick={() => setShowPassword(!showPassword)}
-            >
+            <span onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-
           <span className="error">{errors.password}</span>
         </div>
 
         {/* CONFIRM PASSWORD */}
         <div className="input-box">
           <label>Confirm Password</label>
-
           <div className="input-with-icon">
             <FaLock className="icon" />
             <input
@@ -219,17 +237,10 @@ const Register = () => {
               name="confirmPassword"
               onChange={handleChange}
             />
-
-            <span
-              className="eye-icon"
-              onClick={() =>
-                setShowConfirmPassword(!showConfirmPassword)
-              }
-            >
+            <span onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-
           <span className="error">{errors.confirmPassword}</span>
         </div>
 
@@ -238,23 +249,13 @@ const Register = () => {
           <label>Gender</label>
 
           <div className="gender-box">
-            <label className="gender-option">
-              <input
-                type="radio"
-                name="gender"
-                value="male"
-                onChange={handleChange}
-              />
+            <label>
+              <input type="radio" name="gender" value="male" onChange={handleChange} />
               Male
             </label>
 
-            <label className="gender-option">
-              <input
-                type="radio"
-                name="gender"
-                value="female"
-                onChange={handleChange}
-              />
+            <label>
+              <input type="radio" name="gender" value="female" onChange={handleChange} />
               Female
             </label>
           </div>
@@ -264,7 +265,7 @@ const Register = () => {
 
         {/* BUTTON */}
         <button className="register-btn" onClick={handleSubmit}>
-          Register
+          {loading ? "Loading..." : "Register"}
         </button>
 
       </div>

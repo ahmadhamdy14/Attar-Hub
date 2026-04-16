@@ -1,37 +1,62 @@
-html, body {
-  height: 100%;
-  margin: 0;
-}
-main {
-  flex: 1;
-}
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+:root {
+  /* 🌙 DARK (ستايلك الحالي البنفسجي الاحترافي) */
+  --bg: #0f0c29;
+  --bg-right: #1c1b33;
+  --text: #ffffff;
+  --sub: #aaa;
+  --border: #2c2a4a;
+  --btn: #6c5ce7;
+
+  --card-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* 🌞 LIGHT MODE */
-body.light {
-  background-color: #ffffff;
-  color: #111111;
-}
-
-/* 🌙 DARK MODE */
 body.dark {
-  background-color: #121212;
-  color: #ffffff;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* نضيف تأثير للـ header كمان */
+/* =========================
+   🌞 LIGHT (PROFESSIONAL)
+========================= */
+body.light {
+  --bg: #f7f8fc;
+  --bg-right: #ffffff;
+  --text: #111827;
+  --sub: #6b7280;
+  --border: #e5e7eb;
+  --btn: #4f46e5;
+
+  --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+  background: linear-gradient(180deg, #f7f8fc, #ffffff);
+  color: var(--text);
+}
+
+/* =========================
+   GLOBAL
+========================= */
+body {
+  transition: all 0.3s ease;
+}
+
+/* =========================
+   HEADER (Professional look)
+========================= */
 .header {
+  background: var(--bg-right);
+  color: var(--text);
+  padding: 15px 30px;
+  transition: 0.3s;
+  border-bottom: 1px solid var(--border);
+}
+
+.header a {
+  color: var(--text);
+  text-decoration: none;
+  margin-left: 15px;
   transition: 0.3s;
 }
 
-body.dark .header {
-  background-color: #1f1f1f;
-}
-
-body.light .header {
-  background-color: #111;
+.header a:hover {
+  color: var(--btn);
 }
