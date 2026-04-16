@@ -3,7 +3,6 @@ import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import "./Products.css";
 
 const Products = () => {
   const [Products, setProducts] = useState([]);
