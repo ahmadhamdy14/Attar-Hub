@@ -1,0 +1,137 @@
+.cart-container {
+  padding: 40px;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.cart-container h1 {
+  margin-bottom: 30px;
+}
+
+.empty {
+  text-align: center;
+  font-size: 18px;
+  color: var(--sub);
+}
+
+/* ================= layout ================= */
+.cart-wrapper {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* ================= items ================= */
+.cart-items {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: var(--bg-right);
+  border: 1px solid var(--border);
+  padding: 15px;
+  border-radius: 12px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.cart-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow);
+}
+
+.cart-card img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.cart-info {
+  flex: 1;
+}
+
+.cart-info h3 {
+  margin-bottom: 5px;
+}
+
+.cart-info p {
+  color: var(--btn);
+  font-weight: bold;
+}
+
+.qty {
+  margin-top: 5px;
+  font-size: 14px;
+  color: var(--sub);
+}
+
+/* remove button */
+.remove-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: #ff4d4f;
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+/* ================= summary ================= */
+.cart-summary {
+  flex: 1;
+  background: var(--bg-right);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+}
+
+.cart-summary h2 {
+  margin-bottom: 20px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* buttons */
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--btn);
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.checkout-btn:hover {
+  opacity: 0.9;
+}
+
+.clear-btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  cursor: pointer;
+}

@@ -7,15 +7,34 @@
 
 .products h1 {
   text-align: center;
-  margin-bottom: 35px;
-  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+/* 🔍 SEARCH */
+.search-box {
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-right);
+  color: var(--text);
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: var(--btn);
 }
 
 /* GRID */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 22px;
+  gap: 20px;
 }
 
 /* CARD */
@@ -25,18 +44,17 @@
   border-radius: 16px;
   overflow: hidden;
   transition: 0.3s;
-  cursor: pointer;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  transform: translateY(-6px);
+  box-shadow: var(--card-shadow);
 }
 
 /* IMAGE */
 .card img {
   width: 100%;
-  height: 190px;
+  height: 180px;
   object-fit: cover;
 }
 
@@ -46,13 +64,13 @@
 }
 
 .card-body h3 {
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .card-body p {
   font-size: 13px;
   color: var(--sub);
-  height: 42px;
+  height: 40px;
   overflow: hidden;
 }
 
@@ -65,16 +83,54 @@
   padding: 5px 10px;
   border-radius: 20px;
   font-size: 13px;
+}
+
+/* 🛒 ADD BUTTON */
+.add-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
   font-weight: bold;
 }
 
-/* ================= ADD PRODUCT CARD ================= */
+.add-btn:hover {
+  transform: translateY(-2px);
+}
+
+.add-btn.added {
+  background: #00b894;
+  transform: scale(1.05);
+}
+
+/* 🧨 DELETE BUTTON */
+.delete-btn {
+  margin-top: 8px;
+  width: 100%;
+  padding: 8px;
+  background: #ff4d4f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background: #d9363e;
+}
+
+/* 👑 ADD PRODUCT CARD */
 .add-card {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-
   border: 2px dashed var(--border);
   background: var(--bg-right);
 }

@@ -1,0 +1,74 @@
+.admin-container {
+  padding: 40px;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* TITLE */
+.admin-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* TABLE */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-right);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+
+/* HEAD */
+.admin-table thead {
+  background: var(--btn);
+  color: #fff;
+}
+
+.admin-table th {
+  padding: 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* BODY */
+.admin-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+/* ROW HOVER */
+.admin-table tbody tr:hover {
+  background: rgba(108, 92, 231, 0.1);
+  transition: 0.3s;
+}
+
+/* ROLE BADGE */
+.role {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* USER ROLE */
+.role.user {
+  background: #00b894;
+  color: #fff;
+}
+
+/* ADMIN ROLE */
+.role.admin {
+  background: #ff4d4f;
+  color: #fff;
+}

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { AuthContext } from "../../context/AuthContext";
+import { CartContext } from "../../context/CartContext";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import "./Header.css";
@@ -9,10 +10,15 @@ import "./Header.css";
 const Header = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { user, userData } = useContext(AuthContext);
+  const { cartCount, clearCart } = useContext(CartContext);
+
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await signOut(auth);
+
+    clearCart(); // 🧨 أهم سطر
+
     navigate("/login");
   };
 
@@ -21,12 +27,10 @@ const Header = () => {
       <div className="logo">attarHub</div>
 
       <nav className="nav">
-
-        {/* 🌐 Always visible */}
-        <Link to="/">Home</Link>
         <Link to="/products">Products</Link>
 
-        {/* 👤 Guest (not logged in) */}
+        
+
         {!user && (
           <>
             <Link to="/login">Login</Link>
@@ -34,14 +38,18 @@ const Header = () => {
           </>
         )}
 
-        {/* 🔐 Logged in users */}
         {user && (
           <>
-            {/* 👑 Admin only */}
             {userData?.role === "admin" && (
               <Link to="/admin">Admin</Link>
             )}
-
+            {/* 🛒 CART */}
+            <Link to="/cart" className="cart-link">
+              🛒
+              {cartCount > 0 && (
+              <span className="cart-badge">{cartCount}</span>
+              )}
+            </Link>
             <span style={{ marginLeft: "15px" }}>
               👋 Hi {userData?.firstName || "User"}
             </span>
@@ -52,11 +60,9 @@ const Header = () => {
           </>
         )}
 
-        {/* 🌙 Theme button */}
         <button onClick={toggleTheme} className="theme-btn">
           {theme === "light" ? "🌙 Dark" : "☀️ Light"}
         </button>
-
       </nav>
     </header>
   );
