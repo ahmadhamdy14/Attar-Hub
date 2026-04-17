@@ -69,3 +69,9 @@
   background: var(--border);
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  .add-product-card {
+    padding: 20px;
+  }
+}

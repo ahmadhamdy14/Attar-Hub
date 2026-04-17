@@ -136,20 +136,10 @@ const Login = () => {
           </label>
           <a href="#">Forgot Password?</a>
         </div>
-
         {/* BUTTON */}
         <button className="login-btn" onClick={handleLogin}>
           {loading ? "Loading..." : "Login"}
         </button>
-
-        <p className="or">or continue with</p>
-
-        <div className="socials">
-          <button>f</button>
-          <button></button>
-          <button>G</button>
-        </div>
-
       </div>
     </div>
   );

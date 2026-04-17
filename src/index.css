@@ -60,3 +60,12 @@ body {
 .header a:hover {
   color: var(--btn);
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+* {
+  box-sizing: border-box;
+}

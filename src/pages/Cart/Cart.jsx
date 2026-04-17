@@ -9,6 +9,28 @@ const Cart = () => {
     (acc, item) => acc + item.price * item.qty,
     0
   );
+  const phoneNumber = "201069199985"; // 🔥 حط رقمك هنا (مصر: 20 + الرقم بدون 0)
+
+const handleCheckout = () => {
+  if (cart.length === 0) return;
+
+  let message = "🛒 New Order:\n\n";
+
+  cart.forEach((item, index) => {
+    message += `${index + 1}) ${item.name}
+Qty: ${item.qty}
+Price: ${item.price} EGP
+-------------------\n`;
+  });
+
+  message += `\n💰 Total: ${total} EGP`;
+
+  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+
+  clearCart(); // 🧨 تفريغ السلة بعد الإرسال
+};
 
   return (
     <div className="cart-container">
@@ -53,7 +75,7 @@ const Cart = () => {
               <span>{total} EGP</span>
             </div>
 
-            <button className="checkout-btn">
+            <button className="checkout-btn" onClick={handleCheckout}>
               Checkout
             </button>
 

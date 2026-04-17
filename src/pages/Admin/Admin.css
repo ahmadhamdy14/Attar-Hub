@@ -72,3 +72,16 @@
   background: #ff4d4f;
   color: #fff;
 }
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 20px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    font-size: 12px;
+    padding: 10px;
+  }
+}

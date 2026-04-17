@@ -159,3 +159,20 @@
 .link:hover {
   text-decoration: underline;
 }
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .login-left {
+    height: 200px;
+    flex: none;
+  }
+
+  .login-right {
+    width: 100%;
+    padding: 20px;
+  }
+}
