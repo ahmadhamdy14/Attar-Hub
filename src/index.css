@@ -19,16 +19,20 @@ body.dark {
    🌞 LIGHT (PROFESSIONAL)
 ========================= */
 body.light {
-  --bg: #f7f8fc;
+  --bg: #f6f2f7;
   --bg-right: #ffffff;
-  --text: #111827;
+  --text: #1f2937;
   --sub: #6b7280;
-  --border: #e5e7eb;
-  --btn: #4f46e5;
+  --border: #e7e3ea;
+  --btn: #7c3aed;
 
-  --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  background: linear-gradient(
+    135deg,
+    #f6f2f7 0%,
+    #eef2ff 40%,
+    #fff7ed 100%
+  );
 
-  background: linear-gradient(180deg, #f7f8fc, #ffffff);
   color: var(--text);
 }
 

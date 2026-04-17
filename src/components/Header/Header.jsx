@@ -16,20 +16,18 @@ const Header = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
-
-    clearCart(); // 🧨 أهم سطر
-
+    clearCart();
     navigate("/login");
   };
 
   return (
     <header className="header">
+
       <div className="logo">attarHub</div>
 
       <nav className="nav">
-        <Link to="/products">Products</Link>
 
-        
+        <Link to="/products">Products</Link>
 
         {!user && (
           <>
@@ -43,14 +41,15 @@ const Header = () => {
             {userData?.role === "admin" && (
               <Link to="/admin">Admin</Link>
             )}
-            {/* 🛒 CART */}
+
             <Link to="/cart" className="cart-link">
               🛒
               {cartCount > 0 && (
-              <span className="cart-badge">{cartCount}</span>
+                <span className="cart-badge">{cartCount}</span>
               )}
             </Link>
-            <span style={{ marginLeft: "15px" }}>
+
+            <span className="user-name">
               👋 Hi {userData?.firstName || "User"}
             </span>
 
@@ -63,7 +62,9 @@ const Header = () => {
         <button onClick={toggleTheme} className="theme-btn">
           {theme === "light" ? "🌙 Dark" : "☀️ Light"}
         </button>
+
       </nav>
+
     </header>
   );
 };
