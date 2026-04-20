@@ -22,17 +22,12 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // =========================
-  // HANDLE CHANGE
-  // =========================
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError("");
   };
 
-  // =========================
-  // VALIDATION
-  // =========================
   const validate = () => {
     if (!form.email || !form.password) {
       setError("All fields are required");
@@ -41,9 +36,6 @@ const Login = () => {
     return true;
   };
 
-  // =========================
-  // LOGIN (🔥 FIREBASE)
-  // =========================
   const handleLogin = async () => {
     if (!validate()) return;
 
@@ -72,18 +64,13 @@ const Login = () => {
 
   return (
     <div className="login-container">
-
-      {/* LEFT SIDE */}
       <div
         className="login-left"
         style={{ backgroundImage: `url(${hero})` }}
       />
 
-      {/* RIGHT SIDE */}
       <div className="login-right">
-
         <h2>Sign in</h2>
-
         <p className="sub-text">
           If you don’t have an account register <br />
           You can{" "}
@@ -92,7 +79,6 @@ const Login = () => {
           </Link>
         </p>
 
-        {/* EMAIL */}
         <div className="input-box">
           <label>Email</label>
           <div className="input-with-icon">
@@ -106,7 +92,6 @@ const Login = () => {
           </div>
         </div>
 
-        {/* PASSWORD */}
         <div className="input-box">
           <label>Password</label>
           <div className="input-with-icon">
@@ -126,17 +111,15 @@ const Login = () => {
           </div>
         </div>
 
-        {/* ERROR */}
         {error && <p className="error">{error}</p>}
 
-        {/* OPTIONS */}
         <div className="options">
           <label>
             <input type="checkbox" /> Remember me
           </label>
           <a href="#">Forgot Password?</a>
         </div>
-        {/* BUTTON */}
+        
         <button className="login-btn" onClick={handleLogin}>
           {loading ? "Loading..." : "Login"}
         </button>

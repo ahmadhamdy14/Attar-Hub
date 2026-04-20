@@ -19,11 +19,9 @@ const Products = () => {
   const { userData } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
 
-  // 🧨 MODAL STATES
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  // 🔥 fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -43,13 +41,11 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  // 🧨 OPEN MODAL
   const handleDeleteClick = (id) => {
     setSelectedId(id);
     setShowModal(true);
   };
 
-  // ✅ CONFIRM DELETE
   const confirmDelete = async () => {
     try {
       await deleteDoc(doc(db, "products", selectedId));
@@ -63,7 +59,6 @@ const Products = () => {
     }
   };
 
-  // ❌ CANCEL DELETE
   const cancelDelete = () => {
     setShowModal(false);
     setSelectedId(null);
@@ -73,7 +68,6 @@ const Products = () => {
     <div className="products">
       <h1>🛍️ Products</h1>
 
-      {/* 🔍 SEARCH */}
       <div className="search-box">
         <input
           type="text"
@@ -84,8 +78,6 @@ const Products = () => {
       </div>
 
       <div className="products-grid">
-
-        {/* PRODUCTS */}
         {products
           .filter((p) =>
             p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -103,7 +95,6 @@ const Products = () => {
                   {product.price} EGP
                 </span>
 
-                {/* 🛒 ADD TO CART */}
                 <button
                   className={`add-btn ${
                     clickedId === product.id ? "added" : ""
@@ -119,7 +110,6 @@ const Products = () => {
                     : "Add to Cart"}
                 </button>
 
-                {/* 🧨 DELETE (ADMIN ONLY) */}
                 {userData?.role === "admin" && (
                   <button
                     className="delete-btn"
@@ -132,7 +122,6 @@ const Products = () => {
             </div>
           ))}
 
-        {/* 👑 ADD PRODUCT */}
         {userData?.role === "admin" && (
           <Link to="/add-product" className="card add-card">
             <div className="card-body add-card-body">
@@ -143,7 +132,6 @@ const Products = () => {
         )}
       </div>
 
-      {/* 🧨 MODAL */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">

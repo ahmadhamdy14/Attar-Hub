@@ -15,7 +15,8 @@ const ProtectedRoute = ({ children }) => {
   if (!user) {
     return <Navigate to="/login" />;
   }
-
+  if (user) {
+  }
   return children;
 };
 export default ProtectedRoute;

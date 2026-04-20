@@ -9,7 +9,7 @@ const Cart = () => {
     (acc, item) => acc + item.price * item.qty,
     0
   );
-  const phoneNumber = "201069199985"; // 🔥 حط رقمك هنا (مصر: 20 + الرقم بدون 0)
+  const phoneNumber = "201069199985"; 
 
 const handleCheckout = () => {
   if (cart.length === 0) return;
@@ -29,7 +29,7 @@ Price: ${item.price} EGP
 
   window.open(url, "_blank");
 
-  clearCart(); // 🧨 تفريغ السلة بعد الإرسال
+  clearCart(); 
 };
 
   return (

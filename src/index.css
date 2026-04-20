@@ -15,9 +15,6 @@ body.dark {
   color: var(--text);
 }
 
-/* =========================
-   🌞 LIGHT (PROFESSIONAL)
-========================= */
 body.light {
   --bg: #f6f2f7;
   --bg-right: #ffffff;
@@ -36,16 +33,12 @@ body.light {
   color: var(--text);
 }
 
-/* =========================
-   GLOBAL
-========================= */
+
 body {
   transition: all 0.3s ease;
 }
 
-/* =========================
-   HEADER (Professional look)
-========================= */
+
 .header {
   background: var(--bg-right);
   color: var(--text);

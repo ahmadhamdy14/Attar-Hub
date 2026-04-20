@@ -34,7 +34,6 @@
   position: relative;
 }
 
-/* overlay */
 .register-left::before {
   content: "";
   position: absolute;

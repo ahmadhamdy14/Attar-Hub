@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
@@ -12,6 +12,7 @@ const Header = () => {
   const { user, userData } = useContext(AuthContext);
   const { cartCount, clearCart } = useContext(CartContext);
 
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -19,54 +20,65 @@ const Header = () => {
     clearCart();
     navigate("/login");
   };
-
   return (
     <header className="header">
-
-      <div className="logo">attarHub</div>
-
       <nav className="nav">
-
-        <Link to="/products">Products</Link>
-
-        {!user && (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        )}
-
-        {user && (
-          <>
-            {userData?.role === "admin" && (
-              <Link to="/admin">Admin</Link>
-            )}
-
-            <Link to="/cart" className="cart-link">
-              🛒
-              {cartCount > 0 && (
-                <span className="cart-badge">{cartCount}</span>
+        {/* LOGO */}
+        <p className="logo">attarHub</p>
+        {/* HAMBURGER */}
+        <div style={{ display: "flex", alignItems: "center"  , position: "relative",   gap: "15px" }}>
+          {user && (
+            <>
+          <Link to="/cart" className="cart-link" onClick={() => setOpen(false)}>
+                🛒
+                {cartCount > 0 && (
+                  <span className="cart-badge">{cartCount}</span>
+                )}
+          </Link>
+            </>
+          )}
+         
+          <div className="hamburger" onClick={() => setOpen(!open)}>
+            ☰
+          </div>
+      </div>
+        {/* RIGHT SIDE */}
+        <div className={`nav-right ${open ? "open" : ""}`}>
+          <button onClick={toggleTheme} className="theme-btn">
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
+          <Link to="/products" onClick={() => setOpen(false)}>
+            Products
+          </Link>
+          {!user && (
+            <>
+              <Link to="/login" onClick={() => setOpen(false)}>
+                Login
+              </Link>
+              <Link to="/register" onClick={() => setOpen(false)}>
+                Register
+              </Link>
+            </>
+          )}
+          {user && (
+            <>
+              {userData?.role === "admin" && (
+                <Link to="/admin" onClick={() => setOpen(false)}>
+                  Admin
+                </Link>
               )}
-            </Link>
+              <span className="user-name">
+                👋 Hi {userData?.firstName || "User"}
+              </span>
 
-            <span className="user-name">
-              👋 Hi {userData?.firstName || "User"}
-            </span>
-
-            <button onClick={handleLogout} className="theme-btn">
-              Logout
-            </button>
-          </>
-        )}
-
-        <button onClick={toggleTheme} className="theme-btn">
-          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-        </button>
-
+              <button onClick={handleLogout} className="theme-btn">
+                Logout
+              </button>
+            </>
+          )}
+        </div>
       </nav>
-
     </header>
   );
 };
-
 export default Header;

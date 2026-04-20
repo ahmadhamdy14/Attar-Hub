@@ -38,9 +38,6 @@ import { signOut } from "firebase/auth";
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // =====================
-  // HANDLE CHANGE
-  // =====================
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -86,9 +83,6 @@ import { signOut } from "firebase/auth";
     setErrors(newErrors);
   };
 
-  // =====================
-  // VALIDATE
-  // =====================
   const validate = () => {
     let newErrors = {};
 
@@ -112,9 +106,6 @@ import { signOut } from "firebase/auth";
     return Object.keys(newErrors).length === 0;
   };
 
-  // =====================
-  // SUBMIT (AUTH + FIRESTORE)
-  // =====================
   const handleSubmit = async () => {
     if (!validate()) return;
 
@@ -130,7 +121,6 @@ import { signOut } from "firebase/auth";
 
       const user = userCredential.user;
 
-      // 🗄️ Save extra data in Firestore
       await setDoc(doc(db, "users", user.uid), {
         firstName: form.firstName,
         lastName: form.lastName,
@@ -141,7 +131,6 @@ import { signOut } from "firebase/auth";
         role: "user",
         createdAt: new Date(),
       });
-
     
       await signOut(auth);
       toast.success("Registered Successfully 🎉");
