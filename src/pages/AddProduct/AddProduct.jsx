@@ -12,6 +12,7 @@ const AddProduct = () => {
     price: "",
     description: "",
     image: "",
+    discount: "", // 👈 جديد
   });
 
   const [loading, setLoading] = useState(false);
@@ -39,13 +40,12 @@ const AddProduct = () => {
         price: Number(form.price),
         description: form.description,
         image: form.image,
+        discount: Number(form.discount) || 0, // 👈 مهم
         createdAt: new Date(),
       });
 
       alert("Product added 🎉");
-
       navigate("/");
-
     } catch (error) {
       console.log(error);
       alert("Error adding product");
@@ -56,13 +56,10 @@ const AddProduct = () => {
 
   return (
     <div className="add-product-container">
-
       <div className="add-product-card">
-
         <h2>➕ Add Product</h2>
 
         <form onSubmit={handleSubmit}>
-
           <input
             name="name"
             placeholder="Product Name"
@@ -76,6 +73,14 @@ const AddProduct = () => {
             onChange={handleChange}
           />
 
+          {/* 👇 الجديد */}
+          <input
+            name="discount"
+            placeholder="Discount % (optional)"
+            type="number"
+            onChange={handleChange}
+          />
+
           <textarea
             name="description"
             placeholder="Description"
@@ -84,18 +89,15 @@ const AddProduct = () => {
 
           <input
             name="image"
-            placeholder="Image URL (from internet)"
+            placeholder="Image URL"
             onChange={handleChange}
           />
 
           <button type="submit" disabled={loading}>
             {loading ? "Adding..." : "Add Product"}
           </button>
-
         </form>
-
       </div>
-
     </div>
   );
 };

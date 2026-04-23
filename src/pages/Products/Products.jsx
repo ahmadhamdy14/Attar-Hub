@@ -22,6 +22,7 @@ const Products = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
+  // 📦 Fetch Products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -41,6 +42,7 @@ const Products = () => {
     fetchProducts();
   }, []);
 
+  // ❌ Delete Logic
   const handleDeleteClick = (id) => {
     setSelectedId(id);
     setShowModal(true);
@@ -68,60 +70,90 @@ const Products = () => {
     <div className="products">
       <h1>🛍️ Products</h1>
 
+      {/* 🔍 Search */}
       <div className="search-box">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
+      {/* 📦 Grid */}
       <div className="products-grid">
         {products
           .filter((p) =>
             p.name.toLowerCase().includes(search.toLowerCase()) ||
             p.description?.toLowerCase().includes(search.toLowerCase())
           )
-          .map((product) => (
-            <div className="card" key={product.id}>
-              <img src={product.image} alt={product.name} />
+          .map((product) => {
+            // 💰 حساب السعر بعد الخصم
+            const finalPrice =
+              product.price -
+              (product.price * (product.discount || 0)) / 100;
 
-              <div className="card-body">
-                <h3>{product.name}</h3>
-                <p>{product.description}</p>
+            return (
+              <div className="card" key={product.id}>
+                <img src={product.image} alt={product.name} />
 
-                <span className="price">
-                  {product.price} EGP
-                </span>
+                <div className="card-body">
+                  <h3>{product.name}</h3>
+                  <p>{product.description}</p>
 
-                <button
-                  className={`add-btn ${
-                    clickedId === product.id ? "added" : ""
-                  }`}
-                  onClick={() => {
-                    addToCart(product);
-                    setClickedId(product.id);
-                    setTimeout(() => setClickedId(null), 800);
-                  }}
-                >
-                  {clickedId === product.id
-                    ? "✔ Added"
-                    : "Add to Cart"}
-                </button>
+                  {/* 💰 PRICE BOX */}
+                  <div className="price-box">
+                    {product.discount > 0 && (
+                      <span className="old-price">
+                        {product.price} EGP
+                      </span>
+                    )}
+                    <div>
+                    <span className="new-price">
+                      {finalPrice.toFixed(0)} EGP
+                    </span>
 
-                {userData?.role === "admin" && (
+                    {product.discount > 0 && (
+                      <span className="badge">
+                        -{product.discount}%
+                      </span>
+                    )}
+                  </div>
+                  </div>
+
+                  {/* 🛒 ADD */}
                   <button
-                    className="delete-btn"
-                    onClick={() => handleDeleteClick(product.id)}
+                    className={`add-btn ${
+                      clickedId === product.id ? "added" : ""
+                    }`}
+                    onClick={() => {
+                      addToCart(product);
+                      setClickedId(product.id);
+                      setTimeout(() => setClickedId(null), 1000);
+                    }}
                   >
-                    Delete
+                    {clickedId === product.id
+                      ? "✔ Added!"
+                      : "Add to Cart"}
                   </button>
-                )}
-              </div>
-            </div>
-          ))}
 
+                  {/* ❌ DELETE (Admin only) */}
+                  {userData?.role === "admin" && (
+                    <button
+                      className="delete-btn"
+                      onClick={() =>
+                        handleDeleteClick(product.id)
+                      }
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+        {/* ➕ Add Product */}
         {userData?.role === "admin" && (
           <Link to="/add-product" className="card add-card">
             <div className="card-body add-card-body">
@@ -132,17 +164,24 @@ const Products = () => {
         )}
       </div>
 
+      {/* ⚠️ Modal */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">
             <h3>Are you sure you want to delete?</h3>
 
             <div className="modal-actions">
-              <button className="yes-btn" onClick={confirmDelete}>
+              <button
+                className="yes-btn"
+                onClick={confirmDelete}
+              >
                 Yes
               </button>
 
-              <button className="no-btn" onClick={cancelDelete}>
+              <button
+                className="no-btn"
+                onClick={cancelDelete}
+              >
                 No
               </button>
             </div>

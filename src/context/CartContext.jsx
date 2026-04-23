@@ -22,6 +22,19 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  // ➖ Decrease qty 🔥 (ده الناقص عندك)
+  const decreaseQty = (id) => {
+    setCart((prevCart) =>
+      prevCart
+        .map((item) =>
+          item.id === id
+            ? { ...item, qty: item.qty - 1 }
+            : item
+        )
+        .filter((item) => item.qty > 0) // لو بقى 0 يتمسح
+    );
+  };
+
   // ❌ Remove item
   const removeFromCart = (id) => {
     setCart(cart.filter((item) => item.id !== id));
@@ -38,6 +51,7 @@ const CartProvider = ({ children }) => {
       value={{
         cart,
         addToCart,
+        decreaseQty, // 👈 لازم تضيفها هنا
         removeFromCart,
         clearCart,
         cartCount,
