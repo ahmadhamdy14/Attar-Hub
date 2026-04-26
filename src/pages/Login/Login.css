@@ -42,15 +42,7 @@
       rgba(0, 0, 0, 0.4));
 }
 
-.login-right {
-  flex: 1;
-  background: var(--bg-right);
-  color: var(--text);
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+
 
 .login-right h2 {
   font-size: 32px;
