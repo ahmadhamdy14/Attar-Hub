@@ -9,6 +9,7 @@ import Products from "../pages/Products/Products";
 import AddProduct from "../pages/AddProduct/AddProduct";
 import EditProduct from "../pages/EditProduct/EditProduct";
 import Cart from "../pages/Cart/Cart";
+import Favorites from "../pages/Favorites/Favorites";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -18,6 +19,7 @@ const AppRoutes = () => {
           {/* 🔐 Protected Route */}
           <Route path="/" element={<ProtectedRoute> <Products /> </ProtectedRoute>}/>
           <Route path="/cart" element={<ProtectedRoute> <Cart /> </ProtectedRoute>}/>
+          <Route path="/favorites" element={<ProtectedRoute> <Favorites /> </ProtectedRoute>}/>
           {/* 🌐 Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

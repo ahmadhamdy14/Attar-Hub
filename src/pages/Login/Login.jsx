@@ -1,9 +1,11 @@
 import "./Login.css";
 import hero from "../../assets/1.jpeg";
+import hero2 from "../../assets/2.jpeg";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ThemeContext } from "../../context/ThemeContext";
 
 // 🔥 Firebase
 import { auth, db } from "../../firebase";
@@ -12,6 +14,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -65,7 +68,8 @@ const Login = () => {
 
     } catch (err) {
       if (err.code === "auth/invalid-credential") {
-      toast.error("Invalid email or password");      } else {
+        toast.error("Invalid email or password");
+      } else {
         setError(err.message);
       }
     } finally {
@@ -77,7 +81,7 @@ const Login = () => {
     <div className="login-container">
       <div
         className="login-left"
-        style={{ backgroundImage: `url(${hero})` }}
+        style={{ backgroundImage: `url(${theme === "light" ? hero : hero2})` }}
       />
 
       <div className="login-right">
@@ -130,7 +134,7 @@ const Login = () => {
           </label>
           <a href="#">Forgot Password?</a>
         </div>
-        
+
         <button className="login-btn" onClick={handleLogin}>
           {loading ? "Loading..." : "Login"}
         </button>

@@ -9,6 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
+import { FavoritesContext } from "../../context/FavoritesContext";
 import "./Products.css";
 
 const Products = () => {
@@ -17,6 +18,7 @@ const Products = () => {
   const [clickedId, setClickedId] = useState(null);
   const { userData } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
+  const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
 
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -94,6 +96,14 @@ const Products = () => {
 
             return (
               <div className="card" key={product.id}>
+                {/* Heart Icon Toggle */}
+                <button
+                  className="heart-btn"
+                  onClick={() => toggleFavorite(product)}
+                >
+                  {isFavorite(product.id) ? "❤️" : "🤍"}
+                </button>
+
                 <img src={product.image} alt={product.name} />
 
                 <div className="card-body">

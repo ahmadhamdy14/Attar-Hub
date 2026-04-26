@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
+import { FavoritesContext } from "../../context/FavoritesContext";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import "./Header.css";
@@ -11,6 +12,7 @@ const Header = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { user, userData } = useContext(AuthContext);
   const { cartCount, clearCart } = useContext(CartContext);
+  const { favoritesCount } = useContext(FavoritesContext);
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -29,12 +31,18 @@ const Header = () => {
         <div style={{ display: "flex", alignItems: "center"  , position: "relative",   gap: "15px" }}>
           {user && (
             <>
-          <Link to="/cart" className="cart-link" onClick={() => setOpen(false)}>
+              <Link to="/favorites" className="cart-link" onClick={() => setOpen(false)}>
+                ❤️
+                {favoritesCount > 0 && (
+                  <span className="cart-badge">{favoritesCount}</span>
+                )}
+              </Link>
+              <Link to="/cart" className="cart-link" onClick={() => setOpen(false)}>
                 🛒
                 {cartCount > 0 && (
                   <span className="cart-badge">{cartCount}</span>
                 )}
-          </Link>
+              </Link>
             </>
           )}
          

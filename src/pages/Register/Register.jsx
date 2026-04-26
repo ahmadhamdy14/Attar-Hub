@@ -1,5 +1,6 @@
 import "./Register.css";
 import hero from "../../assets/1.jpeg";
+import hero2 from "../../assets/2.jpeg";
 import {
   FaUser,
   FaEnvelope,
@@ -8,8 +9,9 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ThemeContext } from "../../context/ThemeContext";
 // 🔥 Firebase
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -21,6 +23,7 @@ import { signOut } from "firebase/auth";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -161,7 +164,7 @@ const Register = () => {
 
       <div
         className="register-left"
-        style={{ backgroundImage: `url(${hero})` }}
+        style={{ backgroundImage: `url(${theme === "light" ? hero : hero2})` }}
       />
 
       <div className="register-right">
