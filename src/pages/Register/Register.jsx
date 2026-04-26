@@ -19,7 +19,7 @@ import { signOut } from "firebase/auth";
 
 
 
-  const Register = () => {
+const Register = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -57,6 +57,10 @@ import { signOut } from "firebase/auth";
       else if (!/\S+@\S+\.\S+/.test(value))
         newErrors.email = "Invalid email format";
       else newErrors.email = "";
+    }
+
+    if (newErrors.general) {
+      delete newErrors.general;
     }
 
     if (name === "phone")
@@ -131,13 +135,22 @@ import { signOut } from "firebase/auth";
         role: "user",
         createdAt: new Date(),
       });
-    
+
       await signOut(auth);
       toast.success("Registered Successfully 🎉");
       navigate("/login");
 
     } catch (error) {
-      toast.error(error.message);
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("This email is already registered. Try logging in! 👋");
+        setErrors((prev) => ({ ...prev, general: "This email is already registered. Try logging in!" }));
+      } else if (error.code === "auth/weak-password") {
+        toast.error("Password is too weak. Please use a stronger password. 🔐");
+        setErrors((prev) => ({ ...prev, general: "Password is too weak. Please use a stronger password." }));
+      } else {
+        toast.error("Registration failed. Please try again. 🚨");
+        setErrors((prev) => ({ ...prev, general: "Registration failed. Please try again." }));
+      }
     } finally {
       setLoading(false);
     }
@@ -256,6 +269,12 @@ import { signOut } from "firebase/auth";
         <button className="register-btn" onClick={handleSubmit}>
           {loading ? "Loading..." : "Register"}
         </button>
+
+        {errors.general && (
+          <p className="error" style={{ textAlign: "center", marginTop: "10px", fontSize: "14px", fontWeight: "bold" }}>
+            {errors.general}
+          </p>
+        )}
 
       </div>
     </div>

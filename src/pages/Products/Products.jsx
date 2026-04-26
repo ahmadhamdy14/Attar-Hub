@@ -15,7 +15,6 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [clickedId, setClickedId] = useState(null);
-
   const { userData } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
 
@@ -109,23 +108,22 @@ const Products = () => {
                       </span>
                     )}
                     <div>
-                    <span className="new-price">
-                      {finalPrice.toFixed(0)} EGP
-                    </span>
-
-                    {product.discount > 0 && (
-                      <span className="badge">
-                        -{product.discount}%
+                      <span className="new-price">
+                        {finalPrice.toFixed(0)} EGP
                       </span>
-                    )}
-                  </div>
+
+                      {product.discount > 0 && (
+                        <span className="badge">
+                          -{product.discount}%
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* 🛒 ADD */}
                   <button
-                    className={`add-btn ${
-                      clickedId === product.id ? "added" : ""
-                    }`}
+                    className={`add-btn ${clickedId === product.id ? "added" : ""
+                      }`}
                     onClick={() => {
                       addToCart(product);
                       setClickedId(product.id);
@@ -137,16 +135,21 @@ const Products = () => {
                       : "Add to Cart"}
                   </button>
 
-                  {/* ❌ DELETE (Admin only) */}
+                  {/* ❌ DELETE & EDIT (Admin only) */}
                   {userData?.role === "admin" && (
-                    <button
-                      className="delete-btn"
-                      onClick={() =>
-                        handleDeleteClick(product.id)
-                      }
-                    >
-                      Delete
-                    </button>
+                    <div className="admin-actions">
+                      <Link to={`/edit-product/${product.id}`} className="edit-btn">
+                        ✏️ Edit
+                      </Link>
+                      <button
+                        className="delete-btn"
+                        onClick={() =>
+                          handleDeleteClick(product.id)
+                        }
+                      >
+                        🗑️ Delete
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>

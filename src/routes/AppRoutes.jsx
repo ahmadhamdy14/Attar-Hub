@@ -7,6 +7,7 @@ import AdminRoute from "./AdminRoute";
 import Admin from "../pages/Admin/Admin";
 import Products from "../pages/Products/Products";
 import AddProduct from "../pages/AddProduct/AddProduct";
+import EditProduct from "../pages/EditProduct/EditProduct";
 import Cart from "../pages/Cart/Cart";
 const AppRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const AppRoutes = () => {
           {/* 🚫 Admin Only Route */} 
           <Route path="/admin" element={<AdminRoute> <Admin /> </AdminRoute>}/>
           <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/edit-product/:id" element={<EditProduct />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>

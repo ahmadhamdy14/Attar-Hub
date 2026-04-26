@@ -6,8 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // 🔥 Firebase
-import { auth } from "../../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../firebase";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,11 +43,21 @@ const Login = () => {
     try {
       setLoading(true);
 
-      await signInWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         form.email,
         form.password
       );
+
+      // 🔒 Check if user exists in Firestore (i.e. not deleted by admin)
+      const userRef = doc(db, "users", userCredential.user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await signOut(auth);
+        toast.error("Account has been deactivated or deleted.");
+        return;
+      }
 
       toast.success("Login Success 🎉");
       // 🔥 redirect

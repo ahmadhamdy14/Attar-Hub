@@ -1,4 +1,4 @@
-.add-product-container {
+.edit-product-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -7,7 +7,7 @@
   padding: 40px 20px;
 }
 
-.add-product-card {
+.edit-product-card {
   width: 100%;
   max-width: 500px;
   background: var(--bg-right);
@@ -15,13 +15,13 @@
   border: 1px solid var(--border);
   border-radius: 24px;
   padding: 40px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
 }
 
-.add-product-card::before {
+.edit-product-card::before {
   content: '';
   position: absolute;
   top: -50px;
@@ -34,7 +34,7 @@
   z-index: 0;
 }
 
-.add-product-card h2 {
+.edit-product-card h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 28px;
@@ -44,7 +44,7 @@
   z-index: 1;
 }
 
-.add-product-card form {
+.edit-product-card form {
   position: relative;
   z-index: 1;
   display: flex;
@@ -52,8 +52,8 @@
   gap: 15px;
 }
 
-.add-product-card input,
-.add-product-card textarea {
+.edit-product-card input,
+.edit-product-card textarea {
   width: 100%;
   padding: 16px;
   border-radius: 14px;
@@ -65,19 +65,19 @@
   transition: all 0.3s ease;
 }
 
-.add-product-card input:focus,
-.add-product-card textarea:focus {
+.edit-product-card input:focus,
+.edit-product-card textarea:focus {
   border-color: var(--btn);
   box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15);
   background: rgba(255, 255, 255, 0.06);
 }
 
-.add-product-card textarea {
+.edit-product-card textarea {
   resize: vertical;
   min-height: 100px;
 }
 
-.add-product-card button {
+.edit-product-card button {
   width: 100%;
   padding: 16px;
   border: none;
@@ -92,19 +92,19 @@
   box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
 }
 
-.add-product-card button:hover {
+.edit-product-card button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
 }
 
-.add-product-card button:disabled {
+.edit-product-card button:disabled {
   background: var(--border);
   cursor: not-allowed;
   box-shadow: none;
 }
 
 @media (max-width: 768px) {
-  .add-product-card {
+  .edit-product-card {
     padding: 30px 20px;
     border-radius: 20px;
   }

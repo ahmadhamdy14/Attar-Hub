@@ -3,6 +3,7 @@ import "./AddProduct.css";
 import { db } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     if (!form.name || !form.price || !form.image) {
-      alert("Please fill required fields");
+      toast.warning("Please fill required fields");
       return;
     }
 
@@ -44,11 +45,11 @@ const AddProduct = () => {
         createdAt: new Date(),
       });
 
-      alert("Product added 🎉");
+      toast.success("Product added 🎉");
       navigate("/");
     } catch (error) {
       console.log(error);
-      alert("Error adding product");
+      toast.error("Error adding product");
     } finally {
       setLoading(false);
     }
