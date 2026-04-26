@@ -36,8 +36,10 @@
 .register-left::before {
   content: "";
   position: absolute;
-  inset: 0.4;
-  background: rgba(0, 0, 0, 0.3);
+  inset: 0;
+  background: linear-gradient(to right,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0));
 }
 
 .register-right {
