@@ -26,9 +26,14 @@ const Header = () => {
     <header className="header">
       <nav className="nav">
         {/* LOGO */}
-        <p className="logo">attarHub</p>
+        <div className="logo-container">
+          <Link to="/">
+            <img src="/favicon2.png" alt="Logo" className="logo-icon" />
+          </Link>
+          <Link to="/" className="logo" style={{ fontSize: "20px", fontWeight: "bold" }}>Attar Hub</Link>
+        </div>
         {/* HAMBURGER */}
-        <div style={{ display: "flex", alignItems: "center"  , position: "relative",   gap: "15px" }}>
+        <div style={{ display: "flex", alignItems: "center", position: "relative", gap: "15px" }}>
           {user && (
             <>
               <Link to="/favorites" className="cart-link" onClick={() => setOpen(false)}>
@@ -45,11 +50,11 @@ const Header = () => {
               </Link>
             </>
           )}
-         
+
           <div className="hamburger" onClick={() => setOpen(!open)}>
             ☰
           </div>
-      </div>
+        </div>
         {/* RIGHT SIDE */}
         <div className={`nav-right ${open ? "open" : ""}`}>
           <button onClick={toggleTheme} className="theme-btn">

@@ -34,6 +34,7 @@ const Cart = () => {
       message += `Qty: ${item.qty}\n`;
       message += `Price: ${finalPrice.toFixed(0)} EGP\n`;
       message += `-------------------\n`;
+      message += `Have a nice day ✨`;
     });
 
     message += `\n💰 *Total:* ${total.toFixed(0)} EGP`;

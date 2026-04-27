@@ -17,27 +17,21 @@
 }
 
 /* ================= LOGO ================= */
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-  color: #fff;
-  cursor: pointer;
-  position: relative;
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
-.logo::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: #5642ec;
-  transition: 0.3s;
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #5642ec;
+  border-radius: 50%;
 }
 
-.logo:hover::after {
-  width: 100%;
+.logo-icon:hover {
+  box-shadow: 0 0 10px #5642ec;
 }
 
 /* ================= RIGHT SIDE ================= */
