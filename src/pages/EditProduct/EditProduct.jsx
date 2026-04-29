@@ -15,6 +15,7 @@ const EditProduct = () => {
     description: "",
     image: "",
     discount: "",
+    category: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,7 @@ const EditProduct = () => {
             description: data.description || "",
             image: data.image || "",
             discount: data.discount || "",
+            category: data.category || "",
           });
         } else {
           toast.error("Product not found!");
@@ -74,6 +76,7 @@ const EditProduct = () => {
         price: Number(form.price),
         description: form.description,
         image: form.image,
+        category: form.category ? form.category.trim() : "Uncategorized",
         discount: Number(form.discount) || 0,
       });
 
@@ -115,6 +118,13 @@ const EditProduct = () => {
             placeholder="Discount % (optional)"
             type="number"
             value={form.discount}
+            onChange={handleChange}
+          />
+
+          <input
+            name="category"
+            placeholder="Category"
+            value={form.category}
             onChange={handleChange}
           />
 

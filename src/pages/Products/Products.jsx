@@ -15,9 +15,10 @@ import "./Products.css";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [clickedId, setClickedId] = useState(null);
   const { userData } = useContext(AuthContext);
-  const { addToCart } = useContext(CartContext);
+  const { cart, addToCart, decreaseQty } = useContext(CartContext);
   const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
 
   const [showModal, setShowModal] = useState(false);
@@ -81,14 +82,31 @@ const Products = () => {
         />
       </div>
 
+      {/* 🏷️ Categories */}
+      <div className="categories-filter">
+        {["All", ...new Set(products.map(p => p.category || "Uncategorized"))].map((cat, index) => (
+          <button
+            key={index}
+            className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
+            onClick={() => setSelectedCategory(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       {/* 📦 Grid */}
       <div className="products-grid">
         {products
-          .filter((p) =>
-            p.name.toLowerCase().includes(search.toLowerCase()) ||
-            p.description?.toLowerCase().includes(search.toLowerCase())
-          )
+          .filter((p) => {
+            const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
+              p.description?.toLowerCase().includes(search.toLowerCase());
+            const matchCategory = selectedCategory === "All" || (p.category || "Uncategorized") === selectedCategory;
+            return matchSearch && matchCategory;
+          })
           .map((product) => {
+            const cartItem = cart.find((c) => c.id === product.id);
+
             // 💰 حساب السعر بعد الخصم
             const finalPrice =
               product.price -
@@ -107,6 +125,7 @@ const Products = () => {
                 <img src={product.image} alt={product.name} />
 
                 <div className="card-body">
+                  <span className="category-badge">{product.category || "Uncategorized"}</span>
                   <h3>{product.name}</h3>
                   <p>{product.description}</p>
 
@@ -130,20 +149,28 @@ const Products = () => {
                     </div>
                   </div>
 
-                  {/* 🛒 ADD */}
-                  <button
-                    className={`add-btn ${clickedId === product.id ? "added" : ""
-                      }`}
-                    onClick={() => {
-                      addToCart(product);
-                      setClickedId(product.id);
-                      setTimeout(() => setClickedId(null), 1000);
-                    }}
-                  >
-                    {clickedId === product.id
-                      ? "✔ Added!"
-                      : "Add to Cart"}
-                  </button>
+                  {/* 🛒 ADD / QTY BOX */}
+                  {cartItem ? (
+                    <div className="qty-box">
+                      <button onClick={() => decreaseQty(product.id)}>-</button>
+                      <span>{cartItem.qty}</span>
+                      <button onClick={() => addToCart(product)}>+</button>
+                    </div>
+                  ) : (
+                    <button
+                      className={`add-btn ${clickedId === product.id ? "added" : ""
+                        }`}
+                      onClick={() => {
+                        addToCart(product);
+                        setClickedId(product.id);
+                        setTimeout(() => setClickedId(null), 1000);
+                      }}
+                    >
+                      {clickedId === product.id
+                        ? "✔ Added!"
+                        : "Add to Cart"}
+                    </button>
+                  )}
 
                   {/* ❌ DELETE & EDIT (Admin only) */}
                   {userData?.role === "admin" && (

@@ -15,18 +15,18 @@ const AppRoutes = () => {
     <BrowserRouter>
       <MainLayout>
         <Routes>
-        
+
           {/* 🔐 Protected Route */}
-          <Route path="/" element={<ProtectedRoute> <Products /> </ProtectedRoute>}/>
-          <Route path="/cart" element={<ProtectedRoute> <Cart /> </ProtectedRoute>}/>
-          <Route path="/favorites" element={<ProtectedRoute> <Favorites /> </ProtectedRoute>}/>
+          <Route path="/" element={<ProtectedRoute> <Products /> </ProtectedRoute>} />
+          <Route path="/cart" element={<ProtectedRoute> <Cart /> </ProtectedRoute>} />
+          <Route path="/favorites" element={<ProtectedRoute> <Favorites /> </ProtectedRoute>} />
           {/* 🌐 Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/products" element={<ProtectedRoute> <Products /> </ProtectedRoute>}/>
-          
-          {/* 🚫 Admin Only Route */} 
-          <Route path="/admin" element={<AdminRoute> <Admin /> </AdminRoute>}/>
+          <Route path="/products" element={<ProtectedRoute> <Products /> </ProtectedRoute>} />
+
+          {/* 🚫 Admin Only Route */}
+          <Route path="/admin" element={<AdminRoute> <Admin /> </AdminRoute>} />
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="/edit-product/:id" element={<EditProduct />} />
         </Routes>

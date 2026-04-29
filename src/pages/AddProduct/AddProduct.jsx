@@ -13,7 +13,8 @@ const AddProduct = () => {
     price: "",
     description: "",
     image: "",
-    discount: "", // 👈 جديد
+    discount: "",
+    category: "", // 👈 category field
   });
 
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,8 @@ const AddProduct = () => {
         price: Number(form.price),
         description: form.description,
         image: form.image,
-        discount: Number(form.discount) || 0, // 👈 مهم
+        category: form.category ? form.category.trim() : "Uncategorized", // 👈 category
+        discount: Number(form.discount) || 0,
         createdAt: new Date(),
       });
 
@@ -79,6 +81,12 @@ const AddProduct = () => {
             name="discount"
             placeholder="Discount % (optional)"
             type="number"
+            onChange={handleChange}
+          />
+
+          <input
+            name="category"
+            placeholder="Category"
             onChange={handleChange}
           />
 
