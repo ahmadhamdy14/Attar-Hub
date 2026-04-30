@@ -92,13 +92,13 @@
   border-radius: 16px;
   overflow: hidden;
   transition: 0.3s;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
 }
 
 .card:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* 🖼 IMAGE */
@@ -130,7 +130,8 @@
   display: inline-block;
   margin-top: 10px;
   background: linear-gradient(135deg, #22c55e, #4ade80);
-  color: var(--text);;
+  color: var(--text);
+  ;
   padding: 5px 12px;
   border-radius: 20px;
   font-size: 13px;
@@ -191,7 +192,8 @@
   margin-top: 12px;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
   flex: 1;
   padding: 10px;
   border: none;
@@ -260,7 +262,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
@@ -270,8 +272,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-box {
@@ -287,8 +294,15 @@
 }
 
 @keyframes scaleUp {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-box h3 {
@@ -302,7 +316,8 @@
   gap: 15px;
 }
 
-.yes-btn, .no-btn {
+.yes-btn,
+.no-btn {
   flex: 1;
   padding: 12px;
   border: none;
@@ -343,13 +358,42 @@
   }
 
   .products {
-    padding: 20px;
+    padding: 16px;
   }
 }
 
 @media (max-width: 480px) {
   .products-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .card img {
+    height: 130px;
+  }
+
+  .card-body {
+    padding: 10px;
+  }
+
+  .card-body h3 {
+    font-size: 14px;
+  }
+
+  .card-body p {
+    font-size: 12px;
+    height: 32px;
+  }
+
+  .add-btn {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .heart-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
   }
 }
 
