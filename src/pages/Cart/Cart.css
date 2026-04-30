@@ -46,7 +46,7 @@
 
 .cart-card:hover {
   transform: translateY(-5px) scale(1.01);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* 🖼 IMAGE */
@@ -134,9 +134,18 @@
   font-size: 20px;
   margin-bottom: 20px;
 }
+
 .summary-row span {
   font-weight: bold;
   color: #22c55e;
+}
+
+/* 💰 TOTAL ROW */
+.total-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 14px;
+  margin-top: 4px;
+  font-size: 22px;
 }
 
 /* 🚀 CHECKOUT */
@@ -169,8 +178,9 @@
   font-size: 16px;
   margin-bottom: 10px;
   transition: 0.3s;
-  
+
 }
+
 .clear-btn:hover {
   transform: scale(1.03);
 }

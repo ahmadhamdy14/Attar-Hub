@@ -42,7 +42,7 @@ const AddProduct = () => {
         price: Number(form.price),
         description: form.description,
         image: form.image,
-        category: form.category ? form.category.trim() : "Uncategorized", // 👈 category
+        category: form.category ? form.category.trim() : "متنوع", // 👈 category
         discount: Number(form.discount) || 0,
         createdAt: new Date(),
       });

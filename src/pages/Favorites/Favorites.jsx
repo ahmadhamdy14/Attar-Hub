@@ -10,13 +10,13 @@ const Favorites = () => {
 
   return (
     <div className="favorites-page">
-      <h1>❤️ Favorite Products</h1>
+      <h1>Favorite Products ❤️ </h1>
 
       {favorites.length === 0 ? (
         <div className="empty-favorites">
           <p>You haven't added any favorite products yet.</p>
           <Link to="/products" className="browse-btn">
-            Browse Products
+            Go To Products
           </Link>
         </div>
       ) : (

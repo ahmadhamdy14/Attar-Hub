@@ -1,23 +1,41 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext, useRef } from "react";
+import { db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { AuthContext } from "./AuthContext";
 
 export const FavoritesContext = createContext();
 
 const FavoritesProvider = ({ children }) => {
-  // Initialize favorites from localStorage or empty array
-  const [favorites, setFavorites] = useState(() => {
-    try {
-      const savedFavorites = localStorage.getItem("favorites");
-      return savedFavorites ? JSON.parse(savedFavorites) : [];
-    } catch (error) {
-      console.error("Error reading favorites from localStorage", error);
-      return [];
-    }
-  });
+  const { user } = useContext(AuthContext);
+  const [favorites, setFavorites] = useState([]);
+  const isLoadedRef = useRef(false); // prevent writing before first load
 
-  // Update localStorage whenever favorites change
+  // 🔥 Load favorites from Firestore when user logs in
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+    if (user) {
+      isLoadedRef.current = false;
+      const ref = doc(db, "users", user.uid);
+      getDoc(ref).then((snap) => {
+        if (snap.exists() && snap.data().favorites) {
+          setFavorites(snap.data().favorites);
+        } else {
+          setFavorites([]);
+        }
+        isLoadedRef.current = true;
+      });
+    } else {
+      setFavorites([]);
+      isLoadedRef.current = false;
+    }
+  }, [user]);
+
+  // 🔥 Save favorites to Firestore whenever they change (after load)
+  useEffect(() => {
+    if (!user || !isLoadedRef.current) return;
+
+    const ref = doc(db, "users", user.uid);
+    setDoc(ref, { favorites }, { merge: true });
+  }, [favorites, user]);
 
   const toggleFavorite = (product) => {
     const isFav = favorites.find((item) => item.id === product.id);

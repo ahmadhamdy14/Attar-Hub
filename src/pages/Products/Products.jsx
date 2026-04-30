@@ -84,7 +84,7 @@ const Products = () => {
 
       {/* 🏷️ Categories */}
       <div className="categories-filter">
-        {["All", ...new Set(products.map(p => p.category || "Uncategorized"))].map((cat, index) => (
+        {["All", ...new Set(products.map(p => p.category || "متنوع"))].map((cat, index) => (
           <button
             key={index}
             className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
@@ -101,7 +101,7 @@ const Products = () => {
           .filter((p) => {
             const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
               p.description?.toLowerCase().includes(search.toLowerCase());
-            const matchCategory = selectedCategory === "All" || (p.category || "Uncategorized") === selectedCategory;
+            const matchCategory = selectedCategory === "All" || (p.category || "متنوع") === selectedCategory;
             return matchSearch && matchCategory;
           })
           .map((product) => {
@@ -125,7 +125,7 @@ const Products = () => {
                 <img src={product.image} alt={product.name} />
 
                 <div className="card-body">
-                  <span className="category-badge">{product.category || "Uncategorized"}</span>
+                  <span className="category-badge">{product.category || "متنوع"}</span>
                   <h3>{product.name}</h3>
                   <p>{product.description}</p>
 

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import "./Cart.css";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const {
@@ -11,13 +12,15 @@ const Cart = () => {
     decreaseQty,
   } = useContext(CartContext);
 
-  // 💰 total بعد الخصم
-  const total = cart.reduce((acc, item) => {
+  // 💰 subtotal بعد الخصم
+  const subtotal = cart.reduce((acc, item) => {
     const finalPrice =
       item.price - (item.price * (item.discount || 0)) / 100;
-
     return acc + finalPrice * item.qty;
   }, 0);
+
+  const DELIVERY_FEE = 10;
+  const total = subtotal + DELIVERY_FEE;
 
   const phoneNumber = "201069199985";
 
@@ -34,10 +37,11 @@ const Cart = () => {
       message += `Qty: ${item.qty}\n`;
       message += `Price: ${finalPrice.toFixed(0)} EGP\n`;
       message += `-------------------\n`;
-      message += `Have a nice day ✨`;
     });
 
-    message += `\n💰 *Total:* ${total.toFixed(0)} EGP`;
+    message += `\n10 EGP Delivery fee\n`;
+    message += `\n *Total:* ${total.toFixed(0)} EGP`;
+    message += `\n Have a nice day`;
 
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
@@ -47,12 +51,16 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
-      <h1>🛒 Your Cart</h1>
+      <h1>Your Cart 🛒</h1>
 
       {cart.length === 0 ? (
         <div className="empty-box">
-          <h2>😢 Cart is empty</h2>
+          <h2> Cart is empty 😢</h2>
           <p>Add some products and come back</p>
+          <br />
+          <Link to="/products" className="browse-btn">
+            Go To Products
+          </Link>
         </div>
       ) : (
         <div className="cart-wrapper">
@@ -63,7 +71,6 @@ const Cart = () => {
               const finalPrice =
                 item.price -
                 (item.price * (item.discount || 0)) / 100;
-
               return (
                 <div className="cart-card" key={item.id}>
                   <img src={item.image} alt={item.name} />
@@ -98,6 +105,9 @@ const Cart = () => {
                 </div>
               );
             })}
+            <Link to="/products" className="browse-btn">
+              Go To Products
+            </Link>
           </div>
 
           {/* 💰 SUMMARY */}
@@ -105,6 +115,16 @@ const Cart = () => {
             <h2>Order Summary</h2>
 
             <div className="summary-row">
+              <span>Subtotal</span>
+              <span>{subtotal.toFixed(0)} EGP</span>
+            </div>
+
+            <div className="summary-row">
+              <span> Delivery 🚚</span>
+              <span>10 EGP</span>
+            </div>
+
+            <div className="summary-row total-row">
               <span>Total</span>
               <span>{total.toFixed(0)} EGP</span>
             </div>
@@ -113,19 +133,20 @@ const Cart = () => {
               className="checkout-btn"
               onClick={handleCheckout}
             >
-              🚀 Checkout via WhatsApp
+              Checkout via WhatsApp 🚀
             </button>
 
             <button
               className="clear-btn"
               onClick={clearCart}
             >
-              🧹 Clear Cart
+              Clear Cart 🧹
             </button>
           </div>
 
         </div>
       )}
+
     </div>
   );
 };

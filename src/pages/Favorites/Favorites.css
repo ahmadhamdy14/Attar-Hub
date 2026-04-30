@@ -23,13 +23,16 @@
 
 .browse-btn {
   display: inline-block;
+  font-size: 20px;
+  box-shadow: 0 5px 15px rgba(203, 8, 8, 0.42);
   background-color: var(--primary-color);
-  color: white;
+  color: rgb(203, 8, 8);
   padding: 10px 20px;
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
   transition: 0.3s;
+  margin: auto;
 }
 
 .browse-btn:hover {

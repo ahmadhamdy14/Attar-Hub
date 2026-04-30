@@ -1,14 +1,45 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect, useContext, useRef } from "react";
+import { db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { AuthContext } from "./AuthContext";
 
 export const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
+  const { user } = useContext(AuthContext);
   const [cart, setCart] = useState([]);
+  const isLoadedRef = useRef(false); // prevent writing before first load
+
+  // 🔥 Load cart from Firestore when user logs in
+  useEffect(() => {
+    if (user) {
+      isLoadedRef.current = false;
+      const ref = doc(db, "users", user.uid);
+      getDoc(ref).then((snap) => {
+        if (snap.exists() && snap.data().cart) {
+          setCart(snap.data().cart);
+        } else {
+          setCart([]);
+        }
+        isLoadedRef.current = true;
+      });
+    } else {
+      setCart([]);
+      isLoadedRef.current = false;
+    }
+  }, [user]);
+
+  // 🔥 Save cart to Firestore whenever it changes (after load)
+  useEffect(() => {
+    if (!user || !isLoadedRef.current) return;
+
+    const ref = doc(db, "users", user.uid);
+    setDoc(ref, { cart }, { merge: true });
+  }, [cart, user]);
 
   // ➕ Add to cart
   const addToCart = (product) => {
     const exists = cart.find((item) => item.id === product.id);
-
     if (exists) {
       setCart(
         cart.map((item) =>
@@ -22,16 +53,14 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  // ➖ Decrease qty 🔥 (ده الناقص عندك)
+  // ➖ Decrease qty
   const decreaseQty = (id) => {
     setCart((prevCart) =>
       prevCart
         .map((item) =>
-          item.id === id
-            ? { ...item, qty: item.qty - 1 }
-            : item
+          item.id === id ? { ...item, qty: item.qty - 1 } : item
         )
-        .filter((item) => item.qty > 0) // لو بقى 0 يتمسح
+        .filter((item) => item.qty > 0)
     );
   };
 
@@ -43,7 +72,7 @@ const CartProvider = ({ children }) => {
   // 🧹 Clear cart
   const clearCart = () => setCart([]);
 
-  // 🔢 cart count
+  // 🔢 Cart count
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
 
   return (
@@ -51,7 +80,7 @@ const CartProvider = ({ children }) => {
       value={{
         cart,
         addToCart,
-        decreaseQty, // 👈 لازم تضيفها هنا
+        decreaseQty,
         removeFromCart,
         clearCart,
         cartCount,
