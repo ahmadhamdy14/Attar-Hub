@@ -15,7 +15,7 @@ import "./Products.css";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("الكل");
   const [clickedId, setClickedId] = useState(null);
   const { userData } = useContext(AuthContext);
   const { cart, addToCart, decreaseQty } = useContext(CartContext);
@@ -70,13 +70,13 @@ const Products = () => {
 
   return (
     <div className="products">
-      <h1>🛍️ Products</h1>
+      <h1>المنتجات </h1>
 
       {/* 🔍 Search */}
       <div className="search-box">
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder="ابحث عن منتج..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -84,7 +84,7 @@ const Products = () => {
 
       {/* 🏷️ Categories */}
       <div className="categories-filter">
-        {["All", ...new Set(products.map(p => p.category || "متنوع"))].map((cat, index) => (
+        {["الكل", ...new Set(products.map(p => p.category || "متنوع"))].map((cat, index) => (
           <button
             key={index}
             className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
@@ -101,7 +101,7 @@ const Products = () => {
           .filter((p) => {
             const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
               p.description?.toLowerCase().includes(search.toLowerCase());
-            const matchCategory = selectedCategory === "All" || (p.category || "متنوع") === selectedCategory;
+            const matchCategory = selectedCategory === "الكل" || (p.category || "متنوع") === selectedCategory;
             return matchSearch && matchCategory;
           })
           .map((product) => {
@@ -167,8 +167,8 @@ const Products = () => {
                       }}
                     >
                       {clickedId === product.id
-                        ? "✔ Added!"
-                        : "Add to Cart"}
+                        ? "✔ تمت الإضافة!"
+                        : "إضافة للسلة"}
                     </button>
                   )}
 
@@ -176,7 +176,7 @@ const Products = () => {
                   {userData?.role === "admin" && (
                     <div className="admin-actions">
                       <Link to={`/edit-product/${product.id}`} className="edit-btn">
-                        ✏️ Edit
+                        ✏️ تعديل
                       </Link>
                       <button
                         className="delete-btn"
@@ -184,7 +184,7 @@ const Products = () => {
                           handleDeleteClick(product.id)
                         }
                       >
-                        🗑️ Delete
+                        🗑️ حذف
                       </button>
                     </div>
                   )}
@@ -198,7 +198,7 @@ const Products = () => {
           <Link to="/add-product" className="card add-card">
             <div className="card-body add-card-body">
               <span className="plus">+</span>
-              <h3>Add Product</h3>
+              <h3>إضافة منتج</h3>
             </div>
           </Link>
         )}
@@ -208,21 +208,21 @@ const Products = () => {
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">
-            <h3>Are you sure you want to delete?</h3>
+            <h3>هل أنت متأكد من حذف هذا المنتج؟</h3>
 
             <div className="modal-actions">
               <button
                 className="yes-btn"
                 onClick={confirmDelete}
               >
-                Yes
+                نعم
               </button>
 
               <button
                 className="no-btn"
                 onClick={cancelDelete}
               >
-                No
+                لا
               </button>
             </div>
           </div>

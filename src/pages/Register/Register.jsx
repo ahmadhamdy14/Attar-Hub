@@ -50,15 +50,15 @@ const Register = () => {
     let newErrors = { ...errors };
 
     if (name === "firstName")
-      newErrors.firstName = value ? "" : "First name is required";
+      newErrors.firstName = value ? "" : "الاسم الاول مطلوب";
 
     if (name === "lastName")
-      newErrors.lastName = value ? "" : "Last name is required";
+      newErrors.lastName = value ? "" : "الاسم الاخير مطلوب";
 
     if (name === "email") {
-      if (!value) newErrors.email = "Email is required";
+      if (!value) newErrors.email = "البريد الالكتروني مطلوب";
       else if (!/\S+@\S+\.\S+/.test(value))
-        newErrors.email = "Invalid email format";
+        newErrors.email = "البريد الالكتروني غير صحيح";
       else newErrors.email = "";
     }
 
@@ -67,25 +67,25 @@ const Register = () => {
     }
 
     if (name === "phone")
-      newErrors.phone = value ? "" : "Phone is required";
+      newErrors.phone = value ? "" : "رقم الهاتف مطلوب";
 
     if (name === "password") {
-      if (!value) newErrors.password = "Password is required";
+      if (!value) newErrors.password = "كلمة المرور مطلوبة";
       else if (value.length < 8)
-        newErrors.password = "Minimum 8 characters";
+        newErrors.password = "كلمة المرور اقل من 8 حروف";
       else newErrors.password = "";
     }
 
     if (name === "confirmPassword") {
       if (!value)
-        newErrors.confirmPassword = "Confirm password is required";
+        newErrors.confirmPassword = "كلمة المرور مطلوبة";
       else if (value !== updatedForm.password)
-        newErrors.confirmPassword = "Passwords do not match";
+        newErrors.confirmPassword = "كلمة المرور غير متطابقة";
       else newErrors.confirmPassword = "";
     }
 
     if (name === "gender")
-      newErrors.gender = value ? "" : "Select gender";
+      newErrors.gender = value ? "" : "اختر الجنس";
 
     setErrors(newErrors);
   };
@@ -93,20 +93,20 @@ const Register = () => {
   const validate = () => {
     let newErrors = {};
 
-    if (!form.firstName) newErrors.firstName = "Required";
-    if (!form.lastName) newErrors.lastName = "Required";
+    if (!form.firstName) newErrors.firstName = "الاسم الاول مطلوب";
+    if (!form.lastName) newErrors.lastName = "الاسم الاخير مطلوب";
 
-    if (!form.email) newErrors.email = "Required";
+    if (!form.email) newErrors.email = "البريد الالكتروني مطلوب";
 
-    if (!form.phone) newErrors.phone = "Required";
+    if (!form.phone) newErrors.phone = "رقم الهاتف مطلوب";
 
     if (!form.password || form.password.length < 8)
-      newErrors.password = "Min 8 characters";
+      newErrors.password = "كلمة المرور مطلوبة";
 
     if (form.confirmPassword !== form.password)
-      newErrors.confirmPassword = "Passwords not match";
+      newErrors.confirmPassword = "كلمة المرور غير متطابقة";
 
-    if (!form.gender) newErrors.gender = "Select gender";
+    if (!form.gender) newErrors.gender = "اختر الجنس";
 
     setErrors(newErrors);
 
@@ -140,19 +140,19 @@ const Register = () => {
       });
 
       await signOut(auth);
-      toast.success("Registered Successfully 🎉");
+      toast.success("تم تسجيل الدخول بنجاح 🎉");
       navigate("/login");
 
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
-        toast.error("This email is already registered. Try logging in! 👋");
-        setErrors((prev) => ({ ...prev, general: "This email is already registered. Try logging in!" }));
+        toast.error("هذا البريد الالكتروني مسجل بالفعل . ");
+        setErrors((prev) => ({ ...prev, general: "هذا البريد الالكتروني مسجل بالفعل ." }));
       } else if (error.code === "auth/weak-password") {
-        toast.error("Password is too weak. Please use a stronger password. 🔐");
-        setErrors((prev) => ({ ...prev, general: "Password is too weak. Please use a stronger password." }));
+        toast.error("كلمة المرور اقل من 8 حروف");
+        setErrors((prev) => ({ ...prev, general: "كلمة المرور اقل من 8 حروف" }));
       } else {
-        toast.error("Registration failed. Please try again. 🚨");
-        setErrors((prev) => ({ ...prev, general: "Registration failed. Please try again." }));
+        toast.error("فشل التسجيل. حاول مرة اخرى ");
+        setErrors((prev) => ({ ...prev, general: "فشل التسجيل. حاول مرة اخرى" }));
       }
     } finally {
       setLoading(false);
@@ -169,15 +169,15 @@ const Register = () => {
 
       <div className="register-right">
 
-        <h2>Create Account</h2>
+        <h2>إنشاء حساب جديد</h2>
 
         <p className="sub-text">
-          Already have account? <Link to="/login">Login</Link>
+          لديك حساب بالفعل؟ <Link to="/login" className="link">تسجيل الدخول</Link>
         </p>
 
         {/* FIRST NAME */}
         <div className="input-box">
-          <label>First Name</label>
+          <label>الاسم الاول</label>
           <div className="input-with-icon">
             <FaUser className="icon" />
             <input name="firstName" onChange={handleChange} />
@@ -187,7 +187,7 @@ const Register = () => {
 
         {/* LAST NAME */}
         <div className="input-box">
-          <label>Last Name</label>
+          <label>الاسم الاخير</label>
           <div className="input-with-icon">
             <FaUser className="icon" />
             <input name="lastName" onChange={handleChange} />
@@ -197,7 +197,7 @@ const Register = () => {
 
         {/* EMAIL */}
         <div className="input-box">
-          <label>Email</label>
+          <label>البريد الالكتروني</label>
           <div className="input-with-icon">
             <FaEnvelope className="icon" />
             <input name="email" onChange={handleChange} />
@@ -207,7 +207,7 @@ const Register = () => {
 
         {/* PHONE */}
         <div className="input-box">
-          <label>Phone</label>
+          <label>رقم الهاتف</label>
           <div className="input-with-icon">
             <FaPhone className="icon" />
             <input name="phone" onChange={handleChange} />
@@ -217,7 +217,7 @@ const Register = () => {
 
         {/* PASSWORD */}
         <div className="input-box">
-          <label>Password</label>
+          <label>كلمة المرور</label>
           <div className="input-with-icon">
             <FaLock className="icon" />
             <input
@@ -234,7 +234,7 @@ const Register = () => {
 
         {/* CONFIRM PASSWORD */}
         <div className="input-box">
-          <label>Confirm Password</label>
+          <label>تأكيد كلمة المرور</label>
           <div className="input-with-icon">
             <FaLock className="icon" />
             <input
@@ -251,17 +251,17 @@ const Register = () => {
 
         {/* GENDER */}
         <div className="input-box">
-          <label>Gender</label>
+          <label>الجنس</label>
 
           <div className="gender-box">
             <label>
               <input type="radio" name="gender" value="male" onChange={handleChange} />
-              Male
+              ذكر
             </label>
 
             <label>
               <input type="radio" name="gender" value="female" onChange={handleChange} />
-              Female
+              انثى
             </label>
           </div>
 
@@ -270,7 +270,7 @@ const Register = () => {
 
         {/* BUTTON */}
         <button className="register-btn" onClick={handleSubmit}>
-          {loading ? "Loading..." : "Register"}
+          {loading ? "جاري التحميل..." : "إنشاء حساب"}
         </button>
 
         {errors.general && (

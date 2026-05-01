@@ -1,7 +1,7 @@
 import "./Login.css";
 import hero from "../../assets/1.jpeg";
 import hero2 from "../../assets/2.jpeg";
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaPhone, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -10,22 +10,23 @@ import { ThemeContext } from "../../context/ThemeContext";
 // 🔥 Firebase
 import { auth, db } from "../../firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 
 const Login = () => {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [form, setForm] = useState({ phone: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,8 +34,8 @@ const Login = () => {
   };
 
   const validate = () => {
-    if (!form.email || !form.password) {
-      setError("All fields are required");
+    if (!form.phone || !form.password) {
+      setError("جميع البيانات مطلوبة");
       return false;
     }
     return true;
@@ -42,33 +43,48 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!validate()) return;
+    setLoading(true);
 
     try {
-      setLoading(true);
+      // 🔍 Step 1: Find the user's email by their phone number in Firestore
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("phone", "==", form.phone.trim()));
+      const snapshot = await getDocs(q);
 
+      if (snapshot.empty) {
+        toast.error("رقم الهاتف غير مسجل");
+        return;
+      }
+
+      const userDoc = snapshot.docs[0];
+      const email = userDoc.data().email;
+
+      // 🔐 Step 2: Sign in with the found email + entered password
       const userCredential = await signInWithEmailAndPassword(
         auth,
-        form.email,
+        email,
         form.password
       );
 
-      // 🔒 Check if user exists in Firestore (i.e. not deleted by admin)
+      // 🔒 Step 3: Verify user still exists in Firestore (not deleted by admin)
       const userRef = doc(db, "users", userCredential.user.uid);
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
         await signOut(auth);
-        toast.error("Account has been deactivated or deleted.");
+        toast.error("تم حذف الحساب");
         return;
       }
 
-      toast.success("Login Success 🎉");
-      // 🔥 redirect
+      toast.success("تم تسجيل الدخول بنجاح 🎉");
       navigate("/");
 
     } catch (err) {
-      if (err.code === "auth/invalid-credential") {
-        toast.error("Invalid email or password");
+      if (
+        err.code === "auth/invalid-credential" ||
+        err.code === "auth/wrong-password"
+      ) {
+        toast.error("رقم الهاتف أو كلمة المرور غير صحيحة");
       } else {
         setError(err.message);
       }
@@ -85,36 +101,37 @@ const Login = () => {
       />
 
       <div className="login-right">
-        <h2>Sign in</h2>
+        <h2>تسجيل الدخول</h2>
         <p className="sub-text">
-          If you don’t have an account register <br />
-          You can{" "}
+          ! ليس لديك حسابا{" "}
           <Link to="/register" className="link">
-            Register here !
+            اضغط هنا
           </Link>
         </p>
 
+        {/* PHONE */}
         <div className="input-box">
-          <label>Email</label>
+          <label>رقم الهاتف</label>
           <div className="input-with-icon">
-            <FaEnvelope className="icon" />
+            <FaPhone className="icon" />
             <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
+              type="tel"
+              name="phone"
+              placeholder="ادخل رقم الهاتف"
               onChange={handleChange}
             />
           </div>
         </div>
 
+        {/* PASSWORD */}
         <div className="input-box">
-          <label>Password</label>
+          <label>كلمه المرور</label>
           <div className="input-with-icon">
             <FaLock className="icon" />
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              placeholder="Enter your password"
+              placeholder="ادخل كلمه المرور"
               onChange={handleChange}
             />
             <span
@@ -130,13 +147,15 @@ const Login = () => {
 
         <div className="options">
           <label>
-            <input type="checkbox" /> Remember me
+            <input type="checkbox" /> تذكرني
           </label>
-          <a href="#">Forgot Password?</a>
+          <Link to="/forgot-password" className="link" style={{ fontSize: "13px" }}>
+            نسيت كلمه المرور؟
+          </Link>
         </div>
 
         <button className="login-btn" onClick={handleLogin}>
-          {loading ? "Loading..." : "Login"}
+          {loading ? "جاري التحميل..." : "تسجيل الدخول"}
         </button>
       </div>
     </div>

@@ -14,7 +14,7 @@ const AddProduct = () => {
     description: "",
     image: "",
     discount: "",
-    category: "", // 👈 category field
+    category: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     if (!form.name || !form.price || !form.image) {
-      toast.warning("Please fill required fields");
+      toast.warning("الرجاء ملء البيانات المطلوبة");
       return;
     }
 
@@ -42,16 +42,16 @@ const AddProduct = () => {
         price: Number(form.price),
         description: form.description,
         image: form.image,
-        category: form.category ? form.category.trim() : "متنوع", // 👈 category
+        category: form.category ? form.category.trim() : "متنوع",
         discount: Number(form.discount) || 0,
         createdAt: new Date(),
       });
 
-      toast.success("Product added 🎉");
+      toast.success("تمت إضافة المنتج بنجاح");
       navigate("/");
     } catch (error) {
       console.log(error);
-      toast.error("Error adding product");
+      toast.error("حدث خطأ أثناء إضافة المنتج");
     } finally {
       setLoading(false);
     }
@@ -60,18 +60,18 @@ const AddProduct = () => {
   return (
     <div className="add-product-container">
       <div className="add-product-card">
-        <h2>➕ Add Product</h2>
+        <h2>➕ إضافة منتج جديد</h2>
 
         <form onSubmit={handleSubmit}>
           <input
             name="name"
-            placeholder="Product Name"
+            placeholder="اسم المنتج"
             onChange={handleChange}
           />
 
           <input
             name="price"
-            placeholder="Price"
+            placeholder="السعر"
             type="number"
             onChange={handleChange}
           />
@@ -79,31 +79,31 @@ const AddProduct = () => {
           {/* 👇 الجديد */}
           <input
             name="discount"
-            placeholder="Discount % (optional)"
+            placeholder="نسبه الخصم %"
             type="number"
             onChange={handleChange}
           />
 
           <input
             name="category"
-            placeholder="Category"
+            placeholder="القسم"
             onChange={handleChange}
           />
 
           <textarea
             name="description"
-            placeholder="Description"
+            placeholder="الوصف"
             onChange={handleChange}
           />
 
           <input
             name="image"
-            placeholder="Image URL"
+            placeholder="رابط الصورة"
             onChange={handleChange}
           />
 
           <button type="submit" disabled={loading}>
-            {loading ? "Adding..." : "Add Product"}
+            {loading ? "جاري الإضافة..." : "إضافة المنتج"}
           </button>
         </form>
       </div>

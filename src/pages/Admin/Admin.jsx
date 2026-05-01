@@ -29,10 +29,10 @@ const Admin = () => {
       const userRef = doc(db, "users", userId);
       await updateDoc(userRef, { role: newRole });
       setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
-      toast.success("User role updated");
+      toast.success("تم تحديث صلاحية المستخدم");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to update role");
+      toast.error("فشل تحديث الصلاحية");
     }
   };
 
@@ -48,10 +48,10 @@ const Admin = () => {
       setUsers(users.filter(u => u.id !== selectedUserId));
       setShowModal(false);
       setSelectedUserId(null);
-      toast.success("User deleted successfully");
+      toast.success("تم حذف المستخدم بنجاح");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to delete user");
+      toast.error("فشل حذف المستخدم");
     }
   };
 
@@ -71,19 +71,19 @@ const Admin = () => {
 
   return (
     <div className="admin-container">
-      <h1 className="admin-title">👑 Admin Dashboard</h1>
+      <h1 className="admin-title">👑 لوحة تحكم المستخدمين</h1>
 
       <div className="table-wrapper">
         <table className="admin-table">
           <thead>
             <tr>
               <th>#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Gender</th>
-              <th>Role</th>
-              <th>Actions</th>
+              <th>الاسم</th>
+              <th>البريد الالكتروني</th>
+              <th>رقم الهاتف</th>
+              <th>الجنس</th>
+              <th>الصلاحية</th>
+              <th>الإجراءات</th>
             </tr>
           </thead>
 
@@ -101,8 +101,8 @@ const Admin = () => {
                     onChange={(e) => handleRoleChange(user.id, e.target.value)}
                     className={`role-select ${user.role}`}
                   >
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="user">مستخدم</option>
+                    <option value="admin">مشرف</option>
                   </select>
                 </td>
                 <td>
@@ -110,7 +110,7 @@ const Admin = () => {
                     onClick={() => handleDeleteUser(user.id)} 
                     className="admin-delete-btn"
                   >
-                    🗑️ Delete
+                    🗑️ حذف
                   </button>
                 </td>
               </tr>
@@ -123,21 +123,21 @@ const Admin = () => {
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">
-            <h3>Are you sure you want to delete this user?</h3>
+            <h3>هل أنت متأكد من حذف هذا المستخدم؟</h3>
 
             <div className="modal-actions">
               <button
                 className="yes-btn"
                 onClick={confirmDelete}
               >
-                Yes
+                نعم
               </button>
 
               <button
                 className="no-btn"
                 onClick={cancelDelete}
               >
-                No
+                لا
               </button>
             </div>
           </div>
