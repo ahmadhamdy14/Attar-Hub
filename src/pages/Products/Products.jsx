@@ -15,7 +15,7 @@ import "./Products.css";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [clickedId, setClickedId] = useState(null);
   const { userData } = useContext(AuthContext);
   const { cart, addToCart, decreaseQty } = useContext(CartContext);
