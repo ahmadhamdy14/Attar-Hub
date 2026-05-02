@@ -24,7 +24,7 @@ const Login = () => {
   const { theme } = useContext(ThemeContext);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({ phone: "", password: "" });
+  const [form, setForm] = useState({ identifier: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   const validate = () => {
-    if (!form.phone || !form.password) {
+    if (!form.identifier || !form.password) {
       setError("جميع البيانات مطلوبة");
       return false;
     }
@@ -46,20 +46,25 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // 🔍 Step 1: Find the user's email by their phone number in Firestore
-      const usersRef = collection(db, "users");
-      const q = query(usersRef, where("phone", "==", form.phone.trim()));
-      const snapshot = await getDocs(q);
+      let email = form.identifier.trim();
 
-      if (snapshot.empty) {
-        toast.error("رقم الهاتف غير مسجل");
-        return;
+      // 🔍 Step 1: If it's not an email (doesn't contain @), assume it's a phone number
+      if (!email.includes("@")) {
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("phone", "==", email));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          toast.error("البريد الإلكتروني أو رقم الهاتف غير مسجل");
+          setLoading(false);
+          return;
+        }
+
+        const userDoc = snapshot.docs[0];
+        email = userDoc.data().email;
       }
 
-      const userDoc = snapshot.docs[0];
-      const email = userDoc.data().email;
-
-      // 🔐 Step 2: Sign in with the found email + entered password
+      // 🔐 Step 2: Sign in with the email + entered password
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -84,7 +89,7 @@ const Login = () => {
         err.code === "auth/invalid-credential" ||
         err.code === "auth/wrong-password"
       ) {
-        toast.error("رقم الهاتف أو كلمة المرور غير صحيحة");
+        toast.error("البيانات المدخلة غير صحيحة");
       } else {
         setError(err.message);
       }
@@ -109,15 +114,15 @@ const Login = () => {
           </Link>
         </p>
 
-        {/* PHONE */}
+        {/* EMAIL OR PHONE */}
         <div className="input-box">
-          <label>رقم الهاتف</label>
+          <label>البريد الإلكتروني أو رقم الهاتف</label>
           <div className="input-with-icon">
             <FaPhone className="icon" />
             <input
-              type="tel"
-              name="phone"
-              placeholder="ادخل رقم الهاتف"
+              type="text"
+              name="identifier"
+              placeholder="ادخل البريد الإلكتروني أو رقم الهاتف"
               onChange={handleChange}
             />
           </div>
