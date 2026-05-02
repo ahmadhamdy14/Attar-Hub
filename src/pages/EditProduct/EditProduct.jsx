@@ -76,15 +76,15 @@ const EditProduct = () => {
         price: Number(form.price),
         description: form.description,
         image: form.image,
-        category: form.category ? form.category.trim() : "متنوعة",
+        category: form.category ? form.category.trim() : "product",
         discount: Number(form.discount) || 0,
       });
 
-      toast.success("تم تحديث المنتج بنجاح 🎉");
+      toast.success("the product updated successfully 🎉");
       navigate("/products");
     } catch (error) {
       console.log(error);
-      toast.error("حدث خطأ في تحديث المنتج");
+      toast.error("oops! error");
     } finally {
       setLoading(false);
     }
@@ -95,19 +95,19 @@ const EditProduct = () => {
   return (
     <div className="edit-product-container">
       <div className="edit-product-card">
-        <h2>✏️ تعديل المنتج</h2>
+        <h2>✏️ edit product</h2>
 
         <form onSubmit={handleSubmit}>
           <input
             name="name"
-            placeholder="اسم المنتج"
+            placeholder="product name"
             value={form.name}
             onChange={handleChange}
           />
 
           <input
             name="price"
-            placeholder="السعر"
+            placeholder="price"
             type="number"
             value={form.price}
             onChange={handleChange}
@@ -115,7 +115,7 @@ const EditProduct = () => {
 
           <input
             name="discount"
-            placeholder="نسبه الخصم (اختياري)"
+            placeholder="discount precentage (optional)"
             type="number"
             value={form.discount}
             onChange={handleChange}
@@ -123,27 +123,27 @@ const EditProduct = () => {
 
           <input
             name="category"
-            placeholder="القسم"
+            placeholder="category"
             value={form.category}
             onChange={handleChange}
           />
 
           <textarea
             name="description"
-            placeholder="الوصف"
+            placeholder="description"
             value={form.description}
             onChange={handleChange}
           />
 
           <input
             name="image"
-            placeholder="رابط الصوره"
+            placeholder="product image"
             value={form.image}
             onChange={handleChange}
           />
 
           <button type="submit" disabled={loading}>
-            {loading ? "جاري التحديث.." : "تحديث المنتج"}
+            {loading ? "updating.." : "update product "}
           </button>
         </form>
       </div>

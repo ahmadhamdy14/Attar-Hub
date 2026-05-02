@@ -5,11 +5,11 @@ import { getUserOrders, deleteOldOrders } from "../../services/orderService";
 import "./MyOrders.css";
 
 const STATUS_STYLES = {
-  pending:    { label: "حجز",            color: "#f59e0b", bg: "rgba(245,158,11,0.12)",  border: "rgba(245,158,11,0.3)"  },
-  processing: { label: "قيد التجهيز",   color: "#3b82f6", bg: "rgba(59,130,246,0.12)",  border: "rgba(59,130,246,0.3)"  },
-  shipped:    { label: "جاري التوصيل",  color: "#8b5cf6", bg: "rgba(139,92,246,0.12)",  border: "rgba(139,92,246,0.3)"  },
-  delivered:  { label: "تم التوصيل",    color: "#22c55e", bg: "rgba(34,197,94,0.12)",   border: "rgba(34,197,94,0.3)"   },
-  cancelled:  { label: "ألغاء",          color: "#ef4444", bg: "rgba(239,68,68,0.12)",   border: "rgba(239,68,68,0.3)"   },
+  pending: { label: "booking", color: "#f59e0b", bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.3)" },
+  processing: { label: "processing", color: "#3b82f6", bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.3)" },
+  shipped: { label: "shipping", color: "#8b5cf6", bg: "rgba(139,92,246,0.12)", border: "rgba(139,92,246,0.3)" },
+  delivered: { label: "delivered", color: "#22c55e", bg: "rgba(34,197,94,0.12)", border: "rgba(34,197,94,0.3)" },
+  cancelled: { label: "cancelled", color: "#ef4444", bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.3)" },
 };
 
 const formatDate = (ts) => {
@@ -38,7 +38,7 @@ const MyOrders = () => {
         setOrders(data);
       } catch (err) {
         console.error(err);
-        setError("حدث خطأ في تحميل الطلبات. يرجى المحاولة مرة أخرى.");
+        setError("oops! error");
       } finally {
         setLoading(false);
       }
@@ -49,7 +49,7 @@ const MyOrders = () => {
   if (loading) {
     return (
       <div className="my-orders-container">
-        <div className="my-orders-state">جاري تحميل الطلبات...</div>
+        <div className="my-orders-state">loading</div>
       </div>
     );
   }
@@ -67,11 +67,11 @@ const MyOrders = () => {
   if (orders.length === 0) {
     return (
       <div className="my-orders-container">
-        <h1 className="my-orders-title">📦طلباتي</h1>
+        <h1 className="my-orders-title">my orders</h1>
         <div className="my-orders-state">
-          <p>لسه معندكش اي طلبات </p>
+          <p>no orders </p>
           <Link to="/cart" className="my-orders-browse-btn">
-            اذهب لتاكيد الطلب
+            confirm order
           </Link>
         </div>
       </div>
@@ -80,8 +80,8 @@ const MyOrders = () => {
 
   return (
     <div className="my-orders-container">
-      <h1 className="my-orders-title"> 📦طلباتي</h1>
-      <p className="my-orders-count">{orders.length} طلب {orders.length !== 1 ? "" : ""}</p>
+      <h1 className="my-orders-title">my orders</h1>
+      <p className="my-orders-count">{orders.length} order {orders.length !== 1 ? "" : ""}</p>
 
       <div className="my-orders-list">
         {orders.map((order) => {
@@ -132,7 +132,7 @@ const MyOrders = () => {
 
       <div className="my-orders-cta">
         <Link to="/products" className="my-orders-browse-btn">
-          🛍️اذهب لشراء المزيد
+          go to buy more
         </Link>
       </div>
     </div>

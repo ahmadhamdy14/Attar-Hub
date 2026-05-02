@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 import "./AdminOrders.css";
 
 const STATUSES = [
-  { value: "pending",    label: "حجز",          color: "#f59e0b", bg: "rgba(245,158,11,0.12)",  border: "rgba(245,158,11,0.3)"  },
-  { value: "processing", label: "قيد التجهيز",  color: "#3b82f6", bg: "rgba(59,130,246,0.12)",  border: "rgba(59,130,246,0.3)"  },
-  { value: "shipped",    label: "جاري التوصيل", color: "#8b5cf6", bg: "rgba(139,92,246,0.12)",  border: "rgba(139,92,246,0.3)"  },
-  { value: "delivered",  label: "تم التوصيل",   color: "#22c55e", bg: "rgba(34,197,94,0.12)",   border: "rgba(34,197,94,0.3)"   },
-  { value: "cancelled",  label: "ألغاء",        color: "#ef4444", bg: "rgba(239,68,68,0.12)",   border: "rgba(239,68,68,0.3)"   },
+  { value: "pending", label: "حجز", color: "#f59e0b", bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.3)" },
+  { value: "processing", label: "قيد التجهيز", color: "#3b82f6", bg: "rgba(59,130,246,0.12)", border: "rgba(59,130,246,0.3)" },
+  { value: "shipped", label: "جاري التوصيل", color: "#8b5cf6", bg: "rgba(139,92,246,0.12)", border: "rgba(139,92,246,0.3)" },
+  { value: "delivered", label: "تم التوصيل", color: "#22c55e", bg: "rgba(34,197,94,0.12)", border: "rgba(34,197,94,0.3)" },
+  { value: "cancelled", label: "ألغاء", color: "#ef4444", bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.3)" },
 ];
 
 const getStatusInfo = (statusValue) =>
@@ -25,10 +25,10 @@ const formatDate = (ts) => {
 };
 
 const AdminOrders = () => {
-  const [orders, setOrders]         = useState([]);
-  const [loading, setLoading]       = useState(true);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState(null);
-  const [selected, setSelected]     = useState(null); // order shown in modal
+  const [selected, setSelected] = useState(null); // order shown in modal
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -103,7 +103,7 @@ const AdminOrders = () => {
                     </td>
                     <td>{order.customer?.phone || "—"}</td>
                     <td className="order-address">{order.customer?.address || "—"}</td>
-                    <td className="items-count">{order.items?.length} منتج</td>
+                    <td className="items-count">{order.items?.length} items</td>
                     <td className="order-total">{order.totalPrice?.toFixed(0)} EGP</td>
                     <td>{formatDate(order.createdAt)}</td>
                     <td>
@@ -130,7 +130,7 @@ const AdminOrders = () => {
                         className="details-btn"
                         onClick={() => setSelected(order)}
                       >
-                        👁 عرض
+                        details 👁
                       </button>
                     </td>
                   </tr>

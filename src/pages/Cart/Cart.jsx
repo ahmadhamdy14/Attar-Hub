@@ -39,22 +39,22 @@ const Cart = () => {
   };
 
   const buildWhatsAppMessage = (orderId, items) => {
-    let msg = `🛒 *طلب جديد* 🎉\n`;
+    let msg = `🛒 *new order* 🎉\n`;
     msg += `━━━━━━━━━━━━━━━\n`;
-    msg += `👤 الاسم: ${form.firstName} ${form.lastName}\n`;
-    msg += `📞 الهاتف: ${form.phone}\n`;
-    msg += `📍 العنوان: ${form.address}\n`;
+    msg += `👤 Name: ${form.firstName} ${form.lastName}\n`;
+    msg += `📞 phone: ${form.phone}\n`;
+    msg += `📍 Address: ${form.address}\n`;
     msg += `━━━━━━━━━━━━━━━\n`;
-    msg += `📦 *المنتجات:*\n`;
+    msg += `📦 *products:*\n`;
 
     items.forEach((item, i) => {
       const finalPrice = item.price - (item.price * (item.discount || 0)) / 100;
       msg += `\n${i + 1}. ${item.name}\n`;
-      msg += `   الكمية: ${item.qty}\n`;
+      msg += `   quantity: ${item.qty}\n`;
     });
 
     msg += `━━━━━━━━━━━━━━━\n`;
-    msg += `شكراً لك! ❤️`;
+    msg += `thank you! ❤️`;
 
     return encodeURIComponent(msg);
   };
@@ -95,7 +95,7 @@ const Cart = () => {
       navigate(`/order-success/${orderId}`);
     } catch (err) {
       console.error(err);
-      toast.error("فشل تقديم الطلب. يرجى المحاولة مرة أخرى.");
+      toast.error("Failed to place order. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -103,14 +103,14 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
-      <h1>سله المشتريات</h1>
+      <h1>cart</h1>
 
       {cart.length === 0 ? (
         <div className="empty-box">
-          <h2> 😢سله المشتريات فارغه </h2>
+          <h2> cart is empty 😢 </h2>
           <br />
           <Link to="/products" className="browse-btn">
-            اذهب لشراء
+            go to shop
           </Link>
         </div>
       ) : (
@@ -146,26 +146,26 @@ const Cart = () => {
               );
             })}
             <Link to="/products" className="browse-btn">
-              اذهب لشراء المزيد
+              go to shop
             </Link>
           </div>
 
           {/* 💰 SUMMARY */}
           <div className="cart-summary">
-            <h2>ملخص الطلب</h2>
+            <h2>order summary</h2>
 
             <div className="summary-row">
-              <span>سعر الطلب</span>
+              <span>order price</span>
               <span>{subtotal.toFixed(0)} EGP</span>
             </div>
 
             <div className="summary-row">
-              <span> سعر التوصيل 🚚</span>
+              <span> delivery fees 🚚</span>
               <span>10 EGP</span>
             </div>
 
             <div className="summary-row total-row">
-              <span>الاجمالي</span>
+              <span>total</span>
               <span>{total.toFixed(0)} EGP</span>
             </div>
 
@@ -174,17 +174,17 @@ const Cart = () => {
                 className="checkout-btn"
                 onClick={() => setShowForm(true)}
               >
-                تأكيد الطلب 🚀
+                place order 🚀
               </button>
             ) : (
               <form className="checkout-form" onSubmit={handlePlaceOrder}>
-                <h3>معلومات التوصيل</h3>
+                <h3>customer info</h3>
 
                 <div className="form-row">
                   <input
                     type="text"
                     name="firstName"
-                    placeholder="الاسم الاول"
+                    placeholder="first name"
                     value={form.firstName}
                     onChange={handleChange}
                     required
@@ -192,7 +192,7 @@ const Cart = () => {
                   <input
                     type="text"
                     name="lastName"
-                    placeholder="الاسم الاخير"
+                    placeholder="last name"
                     value={form.lastName}
                     onChange={handleChange}
                     required
@@ -202,7 +202,7 @@ const Cart = () => {
                 <input
                   type="email"
                   name="email"
-                  placeholder="البريد الالكتروني"
+                  placeholder="email"
                   value={form.email}
                   onChange={handleChange}
                   required
@@ -211,7 +211,7 @@ const Cart = () => {
                 <input
                   type="tel"
                   name="phone"
-                  placeholder="رقم الهاتف"
+                  placeholder="phone number"
                   value={form.phone}
                   onChange={handleChange}
                   required
@@ -220,7 +220,7 @@ const Cart = () => {
                 <input
                   type="text"
                   name="address"
-                  placeholder="العنوان بالتفصيل 📍"
+                  placeholder="address"
                   value={form.address}
                   onChange={handleChange}
                   required
@@ -231,7 +231,7 @@ const Cart = () => {
                   className="checkout-btn"
                   disabled={loading}
                 >
-                  {loading ? "جاري تأكيد الطلب..." : "تأكيد الطلب ✅"}
+                  {loading ? "placing order.." : "place order ✅"}
                 </button>
 
                 <button
@@ -239,14 +239,14 @@ const Cart = () => {
                   className="clear-btn"
                   onClick={() => setShowForm(false)}
                 >
-                  الغاء
+                  cancel
                 </button>
               </form>
             )}
 
             {!showForm && (
               <button className="clear-btn" onClick={clearCart}>
-                مسح السله 🧹
+                clear cart 🧹
               </button>
             )}
           </div>

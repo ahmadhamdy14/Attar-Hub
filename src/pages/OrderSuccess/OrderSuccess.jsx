@@ -4,11 +4,11 @@ import { getOrderById } from "../../services/orderService";
 import "./OrderSuccess.css";
 
 const STATUS_LABELS = {
-  pending: { label: "حجز", color: "#f59e0b" },
-  processing: { label: "قيد التجهيز", color: "#3b82f6" },
-  shipped: { label: "جاري التوصيل", color: "#8b5cf6" },
-  delivered: { label: "تم التوصيل", color: "#22c55e" },
-  cancelled: { label: "ألغاء", color: "#ef4444" },
+  pending: { label: "booking", color: "#f59e0b" },
+  processing: { label: "processing", color: "#3b82f6" },
+  shipped: { label: "shipping", color: "#8b5cf6" },
+  delivered: { label: "delivered", color: "#22c55e" },
+  cancelled: { label: "cancel", color: "#ef4444" },
 };
 
 const OrderSuccess = () => {
@@ -33,7 +33,7 @@ const OrderSuccess = () => {
   if (loading) {
     return (
       <div className="success-container">
-        <div className="success-loading">جاري تحميل طلبك...</div>
+        <div className="success-loading">loading...</div>
       </div>
     );
   }
@@ -42,9 +42,9 @@ const OrderSuccess = () => {
     return (
       <div className="success-container">
         <div className="success-not-found">
-          <h2>لم يتم العثور على الطلب 😕</h2>
+          <h2>oops! not found</h2>
           <Link to="/products" className="success-back-btn">
-            الذهاب للمنتجات
+            go to products
           </Link>
         </div>
       </div>
@@ -76,27 +76,27 @@ const OrderSuccess = () => {
           </svg>
         </div>
 
-        <h1 className="success-title">تم تقديم الطلب! 🎉</h1>
+        <h1 className="success-title">thank you!🎉</h1>
         <p className="success-sub">
-          شكراً، <strong>{order.customer?.firstName}</strong>! تم استلام طلبك بنجاح.
+          thank you, <strong>{order.customer?.firstName}</strong>! order recived successfully 😊.
         </p>
 
         {/* 📋 Order Meta */}
         <div className="success-meta">
           <div className="meta-item">
-            <span className="meta-label">رقم الطلب</span>
+            <span className="meta-label">order id</span>
             <span className="meta-value order-id">{order.id}</span>
           </div>
           <div className="meta-item">
-            <span className="meta-label">التاريخ</span>
+            <span className="meta-label">date</span>
             <span className="meta-value">{formatDate(order.createdAt)}</span>
           </div>
           <div className="meta-item">
-            <span className="meta-label">العنوان</span>
+            <span className="meta-label">address</span>
             <span className="meta-value">{order.customer?.address || "—"}</span>
           </div>
           <div className="meta-item">
-            <span className="meta-label">حالة الطلب</span>
+            <span className="meta-label">status</span>
             <span
               className="status-badge"
               style={{ background: `${statusInfo.color}22`, color: statusInfo.color, border: `1px solid ${statusInfo.color}44` }}
@@ -108,7 +108,7 @@ const OrderSuccess = () => {
 
         {/* 📦 Items */}
         <div className="success-items">
-          <h3>🛎️ المنتجات</h3>
+          <h3>items 🛎️</h3>
           {order.items.map((item) => {
             const finalPrice = item.price - (item.price * (item.discount || 0)) / 100;
             return (
@@ -128,12 +128,12 @@ const OrderSuccess = () => {
 
         {/* 💰 Total */}
         <div className="success-total">
-          <span>الإجمالي</span>
+          <span>total</span>
           <span className="success-total-amount">{order.totalPrice?.toFixed(0)} EGP</span>
         </div>
 
         <Link to="/products" className="success-back-btn">
-          متابعة التسوق 🛍️
+          go to buy more 🛍️
         </Link>
       </div>
     </div>

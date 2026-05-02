@@ -10,13 +10,13 @@ const Favorites = () => {
 
   return (
     <div className="favorites-page">
-      <h1>المفضلات ❤️</h1>
+      <h1>favorites 🤍</h1>
 
       {favorites.length === 0 ? (
         <div className="empty-favorites">
-          <p>لم تضف أي منتج للمفضلات بعد.</p>
+          <p>no products added yet.</p>
           <Link to="/products" className="browse-btn">
-            الذهاب للمنتجات
+            go to products
           </Link>
         </div>
       ) : (
@@ -59,7 +59,7 @@ const Favorites = () => {
                       addToCart(product);
                     }}
                   >
-                    إضافة للسلة
+                    add to cart
                   </button>
                 </div>
               </div>

@@ -30,7 +30,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     if (!form.name || !form.price || !form.image) {
-      toast.warning("الرجاء ملء البيانات المطلوبة");
+      toast.warning("Please fill in the required information");
       return;
     }
 
@@ -47,11 +47,11 @@ const AddProduct = () => {
         createdAt: new Date(),
       });
 
-      toast.success("تمت إضافة المنتج بنجاح");
+      toast.success("Product added successfully");
       navigate("/");
     } catch (error) {
       console.log(error);
-      toast.error("حدث خطأ أثناء إضافة المنتج");
+      toast.error("Product added failed");
     } finally {
       setLoading(false);
     }
@@ -60,18 +60,18 @@ const AddProduct = () => {
   return (
     <div className="add-product-container">
       <div className="add-product-card">
-        <h2>➕ إضافة منتج جديد</h2>
+        <h2> add new product ➕</h2>
 
         <form onSubmit={handleSubmit}>
           <input
             name="name"
-            placeholder="اسم المنتج"
+            placeholder="Product name"
             onChange={handleChange}
           />
 
           <input
             name="price"
-            placeholder="السعر"
+            placeholder="Price"
             type="number"
             onChange={handleChange}
           />
@@ -79,31 +79,31 @@ const AddProduct = () => {
           {/* 👇 الجديد */}
           <input
             name="discount"
-            placeholder="نسبه الخصم %"
+            placeholder="Discount %"
             type="number"
             onChange={handleChange}
           />
 
           <input
             name="category"
-            placeholder="القسم"
+            placeholder="Category"
             onChange={handleChange}
           />
 
           <textarea
             name="description"
-            placeholder="الوصف"
+            placeholder="Description"
             onChange={handleChange}
           />
 
           <input
             name="image"
-            placeholder="رابط الصورة"
+            placeholder="Image URL"
             onChange={handleChange}
           />
 
           <button type="submit" disabled={loading}>
-            {loading ? "جاري الإضافة..." : "إضافة المنتج"}
+            {loading ? "Adding..." : "Add Product"}
           </button>
         </form>
       </div>

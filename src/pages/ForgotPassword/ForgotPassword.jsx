@@ -34,7 +34,7 @@ const ForgotPassword = () => {
       const snapshot = await getDocs(q);
 
       if (snapshot.empty) {
-        toast.error("رقم الهاتف غير مسجل في النظام");
+        toast.error("this phone number is not registered in the system");
         return;
       }
 
@@ -45,10 +45,10 @@ const ForgotPassword = () => {
 
       setSentEmail(email);
       setSent(true);
-      toast.success("تم إرسال رابط إعادة التعيين بنجاح!");
+      toast.success("Password reset link has been sent successfully!");
     } catch (err) {
       console.error(err);
-      toast.error("حدث خطأ. يرجى المحاولة مرة أخرى.");
+      toast.error("oops error please try again");
     } finally {
       setLoading(false);
     }
@@ -65,20 +65,20 @@ const ForgotPassword = () => {
         {!sent ? (
           <>
             <div className="fp-icon">🔐</div>
-            <h2 className="fp-title">نسيت كلمة المرور؟</h2>
+            <h2 className="fp-title">Forgot your password?</h2>
             <p className="fp-sub">
-              أدخل رقم هاتفك وسنرسل رابط إعادة تعيين كلمة المرور
-              إلى بريدك الإلكتروني المسجل.
+              Enter your phone number and we'll send a password reset link
+              to your registered email address.
             </p>
 
             <form onSubmit={handleSubmit} className="fp-form">
               <div className="fp-input-box">
-                <label>رقم الهاتف</label>
+                <label>phone number</label>
                 <div className="fp-input-wrap">
                   <FaPhone className="fp-icon-field" />
                   <input
                     type="tel"
-                    placeholder="ادخل رقم الهاتف"
+                    placeholder="enter your phone number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
@@ -87,27 +87,27 @@ const ForgotPassword = () => {
               </div>
 
               <button type="submit" className="fp-btn" disabled={loading}>
-                {loading ? "جاري الإرسال..." : "إرسال رابط الاسترداد"}
+                {loading ? "sending..." : "send reset link"}
               </button>
             </form>
 
             <Link to="/login" className="fp-back">
-              ← العودة لتسجيل الدخول
+              ← back to login
             </Link>
           </>
         ) : (
           <div className="fp-success">
             <FaCheckCircle className="fp-check-icon" />
-            <h2>تم الإرسال! 📬</h2>
+            <h2>The reset link has been sent! 📬</h2>
             <p>
-              تم إرسال رابط إعادة تعيين كلمة المرور إلى:
+              The password reset link has been sent to:
             </p>
             <span className="fp-sent-email">{sentEmail}</span>
             <p className="fp-hint">
-              تحقق من بريدك الوارد أو مجلد الرسائل غير المرغوب فيها (Spam).
+              Check your inbox or spam folder.
             </p>
             <Link to="/login" className="fp-btn" style={{ textAlign: "center", display: "block" }}>
-              العودة لتسجيل الدخول
+              back to login
             </Link>
           </div>
         )}

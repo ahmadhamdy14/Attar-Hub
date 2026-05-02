@@ -35,7 +35,7 @@ const Login = () => {
 
   const validate = () => {
     if (!form.identifier || !form.password) {
-      setError("جميع البيانات مطلوبة");
+      setError("all the data is required");
       return false;
     }
     return true;
@@ -55,7 +55,7 @@ const Login = () => {
         const snapshot = await getDocs(q);
 
         if (snapshot.empty) {
-          toast.error("البريد الإلكتروني أو رقم الهاتف غير مسجل");
+          toast.error("the email or phone number is not registered");
           setLoading(false);
           return;
         }
@@ -77,11 +77,11 @@ const Login = () => {
 
       if (!userSnap.exists()) {
         await signOut(auth);
-        toast.error("تم حذف الحساب");
+        toast.error("this account has been deleted");
         return;
       }
 
-      toast.success("تم تسجيل الدخول بنجاح 🎉");
+      toast.success("welcome 🎉");
       navigate("/");
 
     } catch (err) {
@@ -89,7 +89,7 @@ const Login = () => {
         err.code === "auth/invalid-credential" ||
         err.code === "auth/wrong-password"
       ) {
-        toast.error("البيانات المدخلة غير صحيحة");
+        toast.error("wrong data");
       } else {
         setError(err.message);
       }
@@ -106,23 +106,23 @@ const Login = () => {
       />
 
       <div className="login-right">
-        <h2>تسجيل الدخول</h2>
+        <h2>login</h2>
         <p className="sub-text">
-          ! ليس لديك حسابا{" "}
+          if you don't have an account ?{" "}
           <Link to="/register" className="link">
-            اضغط هنا
+            click here
           </Link>
         </p>
 
         {/* EMAIL OR PHONE */}
         <div className="input-box">
-          <label>البريد الإلكتروني أو رقم الهاتف</label>
+          <label>email or phone number</label>
           <div className="input-with-icon">
             <FaPhone className="icon" />
             <input
               type="text"
               name="identifier"
-              placeholder="ادخل البريد الإلكتروني أو رقم الهاتف"
+              placeholder="enter your email or phone"
               onChange={handleChange}
             />
           </div>
@@ -130,13 +130,13 @@ const Login = () => {
 
         {/* PASSWORD */}
         <div className="input-box">
-          <label>كلمه المرور</label>
+          <label>password</label>
           <div className="input-with-icon">
             <FaLock className="icon" />
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              placeholder="ادخل كلمه المرور"
+              placeholder="enter your password"
               onChange={handleChange}
             />
             <span
@@ -152,15 +152,15 @@ const Login = () => {
 
         <div className="options">
           <label>
-            <input type="checkbox" /> تذكرني
+            <input type="checkbox" /> remember me
           </label>
           <Link to="/forgot-password" className="link" style={{ fontSize: "13px" }}>
-            نسيت كلمه المرور؟
+            forgot password ?
           </Link>
         </div>
 
         <button className="login-btn" onClick={handleLogin}>
-          {loading ? "جاري التحميل..." : "تسجيل الدخول"}
+          {loading ? "loading" : "login"}
         </button>
       </div>
     </div>

@@ -61,30 +61,30 @@ const Header = () => {
             {theme === "light" ? "🌙" : "☀️"}
           </button>
           <Link to="/products" onClick={() => setOpen(false)}>
-            المنتجات
+            products
           </Link>
           {!user && (
             <>
               <Link to="/login" onClick={() => setOpen(false)}>
-                تسجيل الدخول
+                login
               </Link>
               <Link to="/register" onClick={() => setOpen(false)}>
-                تسجيل حساب جديد
+                register
               </Link>
             </>
           )}
           {user && (
             <>
               <Link to="/my-orders" onClick={() => setOpen(false)}>
-                📦 طلباتي
+                my orders 📦
               </Link>
               {userData?.role === "admin" && (
                 <>
                   <Link to="/admin" onClick={() => setOpen(false)}>
-                    الادمن
+                    admin
                   </Link>
                   <Link to="/admin/orders" onClick={() => setOpen(false)}>
-                    الطلبات
+                    orders
                   </Link>
                 </>
               )}
@@ -93,7 +93,7 @@ const Header = () => {
               </span>
 
               <button onClick={handleLogout} className="theme-btn">
-                تسجيل الخروج
+                logout
               </button>
             </>
           )}

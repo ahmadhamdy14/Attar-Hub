@@ -29,10 +29,10 @@ const Admin = () => {
       const userRef = doc(db, "users", userId);
       await updateDoc(userRef, { role: newRole });
       setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
-      toast.success("تم تحديث صلاحية المستخدم");
+      toast.success("Failed to update user");
     } catch (error) {
       console.error(error);
-      toast.error("فشل تحديث الصلاحية");
+      toast.error("Failed to update user");
     }
   };
 
@@ -48,10 +48,10 @@ const Admin = () => {
       setUsers(users.filter(u => u.id !== selectedUserId));
       setShowModal(false);
       setSelectedUserId(null);
-      toast.success("تم حذف المستخدم بنجاح");
+      toast.success("Successfully deleted the user");
     } catch (error) {
       console.error(error);
-      toast.error("فشل حذف المستخدم");
+      toast.error("Failed to delete the user");
     }
   };
 
@@ -63,7 +63,7 @@ const Admin = () => {
   const sortedUsers = [...users].sort((a, b) => {
     if (a.role === "admin" && b.role !== "admin") return -1;
     if (a.role !== "admin" && b.role === "admin") return 1;
-    
+
     const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
     const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
     return dateA - dateB;
@@ -71,19 +71,19 @@ const Admin = () => {
 
   return (
     <div className="admin-container">
-      <h1 className="admin-title">👑 لوحة تحكم المستخدمين</h1>
+      <h1 className="admin-title">👑 user management</h1>
 
       <div className="table-wrapper">
         <table className="admin-table">
           <thead>
             <tr>
               <th>#</th>
-              <th>الاسم</th>
-              <th>البريد الالكتروني</th>
-              <th>رقم الهاتف</th>
-              <th>الجنس</th>
-              <th>الصلاحية</th>
-              <th>الإجراءات</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Gender</th>
+              <th>Role</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -101,16 +101,16 @@ const Admin = () => {
                     onChange={(e) => handleRoleChange(user.id, e.target.value)}
                     className={`role-select ${user.role}`}
                   >
-                    <option value="user">مستخدم</option>
-                    <option value="admin">مشرف</option>
+                    <option value="user">user</option>
+                    <option value="admin">admin</option>
                   </select>
                 </td>
                 <td>
-                  <button 
-                    onClick={() => handleDeleteUser(user.id)} 
+                  <button
+                    onClick={() => handleDeleteUser(user.id)}
                     className="admin-delete-btn"
                   >
-                    🗑️ حذف
+                    delete🗑️
                   </button>
                 </td>
               </tr>
@@ -123,21 +123,21 @@ const Admin = () => {
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">
-            <h3>هل أنت متأكد من حذف هذا المستخدم؟</h3>
+            <h3>Are you sure you want to delete this user?</h3>
 
             <div className="modal-actions">
               <button
                 className="yes-btn"
                 onClick={confirmDelete}
               >
-                نعم
+                yes
               </button>
 
               <button
                 className="no-btn"
                 onClick={cancelDelete}
               >
-                لا
+                no
               </button>
             </div>
           </div>
