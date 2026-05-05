@@ -29,7 +29,7 @@ const Admin = () => {
       const userRef = doc(db, "users", userId);
       await updateDoc(userRef, { role: newRole });
       setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
-      toast.success("Failed to update user");
+      toast.success("Successfully updated user");
     } catch (error) {
       console.error(error);
       toast.error("Failed to update user");
